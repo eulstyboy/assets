@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Pluie Vélo</string>
-    <string name="widget_label">Prévision de pluie</string>
-    <string name="widget_description">Pluie des deux prochaines heures là où vous êtes</string>
-    <string name="refresh">Actualiser</string>
-</resources>
