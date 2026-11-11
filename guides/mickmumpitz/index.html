@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Quête du Cinéaste IA · Méthode Mickmumpitz</title>
+<meta name="description" content="Guide ludique en français des 13 dernières vidéos de Mickmumpitz : ComfyUI, cinéma, VFX et 3D avec des IA locales.">
+<style>
+:root{--bg:#0e0d12;--panel:#17151e;--panel2:#1f1c28;--ink:#ece8f4;--muted:#a49db3;--line:#2e2a3a;--acc:#ffb800;--acc2:#ff5c7a;--ok:#3ddc97;--blue:#6aa8ff;--r:14px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,sans-serif}
+a{color:var(--blue)}
+code{background:#2a2636;border-radius:5px;padding:.05em .35em;font-size:.9em;color:#ffd77a}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
+.hud{position:sticky;top:0;z-index:20;background:rgba(14,13,18,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hud .wrap{display:flex;gap:14px;align-items:center;padding:10px 18px;flex-wrap:wrap}
+.rank{font-weight:700;white-space:nowrap}
+.bar{flex:1;min-width:160px;height:14px;background:#26222f;border-radius:99px;overflow:hidden;position:relative}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .5s}
+.xp{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.hud nav a{color:var(--muted);text-decoration:none;margin-left:10px;font-size:.92em}
+.hud nav a:hover{color:var(--ink)}
+.hero{padding:56px 0 24px;text-align:center;background:radial-gradient(ellipse at top,#2a1f3d 0,transparent 60%)}
+.hero .clap{font-size:56px}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);margin:.2em 0 .1em;letter-spacing:-.02em}
+.hero h1 span{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{color:var(--muted);font-size:1.15em;margin:0 0 1em}
+.hero .intro{max-width:760px;margin:0 auto 1em;text-align:left}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:18px 0}
+.rules{margin:.4em 0 0;padding-left:1.2em}
+h2{font-size:1.6rem;margin:1.6em 0 .6em}
+.map{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0}
+.node{width:62px;height:62px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--panel2);border:2px solid var(--line);text-decoration:none;color:var(--ink);transition:transform .15s}
+.node:hover{transform:translateY(-3px)}
+.node span{font-size:22px;line-height:1}
+.node small{font-size:11px;color:var(--muted)}
+.node.done{border-color:var(--ok);box-shadow:0 0 0 3px rgba(61,220,151,.18)}
+.node.part{border-color:var(--acc)}
+.laws{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.law{display:flex;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.law-ico{font-size:28px}
+.law h4{margin:0 0 .2em}
+.law p{margin:0;color:#d6d0e2;font-size:.95em}
+.world-title{border-left:5px solid var(--acc);padding-left:12px}
+.level{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);margin:16px 0;overflow:hidden;transition:border-color .3s}
+.level.complete{border-color:var(--ok)}
+.lvl-head{display:flex;gap:18px;padding:18px}
+.thumb{flex:0 0 240px;position:relative;border-radius:10px;overflow:hidden;align-self:flex-start;background:#000;aspect-ratio:16/9;display:block}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff;text-shadow:0 2px 12px #000;opacity:.85}
+.thumb .dur{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.8);color:#fff;font-size:12px;padding:1px 6px;border-radius:4px}
+.thumb-emoji{display:flex;align-items:center;justify-content:center;font-size:72px;background:linear-gradient(135deg,#2a1f3d,#1c2a3d)}
+.lvl-meta{flex:1;min-width:0}
+.lvl-kicker{color:var(--muted);font-size:.88em}
+.diff{color:var(--acc);letter-spacing:1px}
+.xp-tag{color:var(--acc2)}
+.lvl-meta h3{margin:.15em 0 .3em;font-size:1.35rem}
+.vid{margin:.2em 0 .5em;font-size:.93em}
+.muted{color:var(--muted)}
+.pitch{margin:.3em 0 .6em}
+.badge-slot{display:inline-flex;gap:6px;align-items:center;background:var(--panel2);border:1px dashed var(--line);border-radius:99px;padding:3px 12px;font-size:.9em;filter:grayscale(1);opacity:.7}
+.level.complete .badge-slot{filter:none;opacity:1;border-style:solid;border-color:var(--ok)}
+.lvl-body{border-top:1px solid var(--line)}
+.lvl-body>summary{cursor:pointer;padding:12px 18px;font-weight:600;color:var(--acc);list-style:none}
+.lvl-body>summary::-webkit-details-marker{display:none}
+.lvl-body>summary::before{content:"▸ ";}
+.lvl-body[open]>summary::before{content:"▾ ";}
+.lvl-body>*:not(summary){margin-left:18px;margin-right:18px}
+.grid2{display:grid;grid-template-columns:1fr 1.4fr;gap:18px}
+h4{margin:1em 0 .4em}
+.stack{padding-left:1.1em;margin:0;color:#d6d0e2;font-size:.94em}
+.quest{list-style:none;padding:0;margin:0;counter-reset:q}
+.quest li{counter-increment:q;margin:0 0 8px}
+.quest label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.quest label::before{content:counter(q);font-weight:700;color:var(--acc);min-width:1.2em}
+.quest input,.challenge input{margin-top:.3em;accent-color:var(--ok);width:18px;height:18px;flex:0 0 auto}
+.quest input:checked+span{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(61,220,151,.6)}
+.tips{padding-left:1.1em;margin:0}
+.tips li{margin-bottom:4px}
+.trap{background:rgba(255,92,122,.1);border:1px solid rgba(255,92,122,.4);border-radius:10px;padding:10px 12px;margin:14px 18px}
+.note{background:rgba(106,168,255,.1);border:1px solid rgba(106,168,255,.35);border-radius:10px;padding:8px 12px}
+.challenge{display:flex;gap:10px;align-items:flex-start;background:rgba(255,184,0,.1);border:1px solid rgba(255,184,0,.45);border-radius:10px;padding:10px 12px;margin:0 18px;cursor:pointer}
+.challenge input:checked+span{color:var(--ok)}
+.src{font-size:.85em;color:var(--muted);margin:12px 18px 18px}
+.scroll{background:#1a1622;border:1px solid #4a3d2a;border-radius:10px;margin:14px 18px;overflow:hidden}
+.scroll-h{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#2a2218;color:#ffd77a;font-weight:600}
+.scroll pre{margin:0;padding:12px;overflow:auto;font-size:.82em;line-height:1.5;white-space:pre-wrap}
+button{font:inherit}
+.copy,.reset{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:3px 10px;cursor:pointer}
+.copy:hover,.reset:hover{border-color:var(--acc)}
+.router{list-style:none;padding:0;margin:0}
+.router li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.router li a{white-space:nowrap;text-decoration:none}
+.timeline{list-style:none;padding:0;margin:0;border-left:3px solid var(--line)}
+.timeline li{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:8px 0 8px 16px;position:relative}
+.timeline li::before{content:"";position:absolute;left:-8px;top:15px;width:13px;height:13px;border-radius:50%;background:var(--acc)}
+.t-when{color:var(--acc);font-weight:600}
+.q{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin:12px 0}
+.q-t{margin:0 0 10px;font-weight:600}
+.q-n{background:var(--acc);color:#000;border-radius:6px;padding:0 7px;margin-right:6px;font-size:.85em}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.opt{text-align:left;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt.good{border-color:var(--ok);background:rgba(61,220,151,.12)}
+.opt.bad{border-color:var(--acc2);background:rgba(255,92,122,.12)}
+.opt[disabled]{cursor:default}
+.expl{margin:10px 0 0;color:#d6d0e2;font-size:.94em}
+.score{font-weight:700;color:var(--acc)}
+.glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin:0}
+.g{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.g dt{font-weight:700;color:var(--acc)}
+.g dd{margin:.2em 0 0;color:#d6d0e2;font-size:.93em}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.shelf-b{text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 6px;filter:grayscale(1);opacity:.45;transition:all .3s}
+.shelf-b span{font-size:30px;display:block}
+.shelf-b small{font-size:.75em;color:var(--muted)}
+.shelf-b.on{filter:none;opacity:1;border-color:var(--ok)}
+table{width:100%;border-collapse:collapse;font-size:.92em}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.tablewrap{overflow-x:auto}
+footer{color:var(--muted);font-size:.88em;padding:30px 0 60px;text-align:center}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#211d2b;border:1px solid var(--acc);color:var(--ink);padding:12px 18px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.5);transition:transform .35s,visibility .35s;visibility:hidden;z-index:50;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0);visibility:visible}
+@media (max-width:760px){
+ .lvl-head{flex-direction:column} .thumb{flex-basis:auto;width:100%}
+ .grid2{grid-template-columns:1fr} .timeline li{grid-template-columns:1fr;gap:2px}
+ .hud nav{display:none} .router li{flex-direction:column;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="hud" role="status" aria-live="polite">
+ <div class="wrap">
+  <span class="rank" id="rank">🎟️ Stagiaire du plateau</span>
+  <div class="bar" aria-hidden="true"><i id="barfill"></i></div>
+  <span class="xp"><b id="xp">0</b> / 4100 XP</span>
+  <nav><a href="#carte">Carte</a><a href="#lois">Lois</a><a href="#quiz">Quiz</a><a href="#badges">Badges</a></nav>
+ </div>
+</div>
+
+<header class="hero">
+ <div class="wrap">
+  <div class="clap" aria-hidden="true">🎬</div>
+  <h1><span>La Quête du Cinéaste IA</span></h1>
+  <p class="sub">La méthode Mickmumpitz en 13 niveaux (+ le camp de base)</p>
+  <p class="intro">Mickmumpitz (Mick Mahler) est un artiste VFX allemand qui publie, avec chaque vidéo, un workflow <strong>ComfyUI gratuit</strong> pour faire du cinéma, de la 3D et des VFX avec des IA <strong>locales et open source</strong>. Ce guide condense ses 13 dernières vidéos (nov. 2025 → oct. 2026, environ 3 h 24 de tutoriels) en une progression façon jeu vidéo : coche les étapes pour gagner de l'XP, relève les défis pour débloquer des badges, et termine par le quiz. Ta progression est sauvegardée dans ton navigateur.</p>
+  <div class="panel intro"><strong>🎮 Règles du jeu</strong><ul class="rules"><li>Chaque <strong>étape</strong> cochée rapporte <strong>10 XP</strong>.</li><li>Chaque <strong>défi</strong> relevé rapporte le bonus du niveau et débloque son <strong>badge</strong> (avec toutes les étapes cochées).</li><li>Chaque bonne réponse au <strong>quiz</strong> rapporte <strong>25 XP</strong>, au premier essai seulement.</li><li>L'ordre suit la difficulté, pas la date de sortie : commence au camp de base.</li></ul></div>
+ </div>
+</header>
+
+<main class="wrap">
+ <h2 id="carte">🗺️ La carte</h2>
+ <p class="muted">Clique sur un niveau pour t'y rendre. Bordure orange = en cours, verte = terminé.</p>
+ <div class="map"><a class="node" href="#l0" data-node="l0" title="Niveau 0 : Le Camp de base"><span>🏕️</span><small>0</small></a><a class="node" href="#l1" data-node="l1" title="Niveau 1 : Le Zoom qui invente"><span>🔍</span><small>1</small></a><a class="node" href="#l2" data-node="l2" title="Niveau 2 : L&#x27;Usine à sosies"><span>🧬</span><small>2</small></a><a class="node" href="#l3" data-node="l3" title="Niveau 3 : Le Clap plan par plan"><span>🎬</span><small>3</small></a><a class="node" href="#l4" data-node="l4" title="Niveau 4 : Le Plateau modulaire"><span>🎞️</span><small>4</small></a><a class="node" href="#l5" data-node="l5" title="Niveau 5 : Le Marionnettiste"><span>🪄</span><small>5</small></a><a class="node" href="#l6" data-node="l6" title="Niveau 6 : Le Moteur de rendu 2.0"><span>⚙️</span><small>6</small></a><a class="node" href="#l7" data-node="l7" title="Niveau 7 : Bear Minimum"><span>🐻</span><small>7</small></a><a class="node" href="#l8" data-node="l8" title="Niveau 8 : La Pâte qui prend vie"><span>🗿</span><small>8</small></a><a class="node" href="#l9" data-node="l9" title="Niveau 9 : Le Studio VFX de poche"><span>💥</span><small>9</small></a><a class="node" href="#l10" data-node="l10" title="Niveau 10 : Groin groin"><span>🐷</span><small>10</small></a><a class="node" href="#l11" data-node="l11" title="Niveau 11 : Le Cartographe"><span>🗺️</span><small>11</small></a><a class="node" href="#l12" data-node="l12" title="Niveau 12 : Bullet time maison"><span>🕶️</span><small>12</small></a><a class="node" href="#l13" data-node="l13" title="Niveau 13 : SHIBUWAKA : un anime avec un seul modèle"><span>👑</span><small>13</small></a></div>
+
+ <h2 id="lois">📜 Les Lois de Mick</h2>
+ <p class="muted">Les principes qui reviennent d'une vidéo à l'autre. Si tu ne retiens que ça, tu as déjà gagné la moitié du jeu.</p>
+ <div class="laws"><div class="law"><div class="law-ico">🧱</div><div><h4>La maquette d&#x27;abord, l&#x27;IA ensuite</h4><p>Bloque la mise en scène toi-même (Blender, jouets au bout d'un bâton, prévis, vidéo de téléphone) et laisse l'IA s'occuper du look. Mick cherche toujours le <strong>contrôle</strong>, pas le hasard.</p></div></div><div class="law"><div class="law-ico">🪪</div><div><h4>L&#x27;identité vient des références, pas du prompt</h4><p>Prompt « vague mais ancré » (« le protagoniste, dans un champ à l'heure dorée ») et références visuelles fortes : un visage, une vue de face plus une vue de profil ou de 3/4. Tu pourras changer de héros sans réécrire les prompts.</p></div></div><div class="law"><div class="law-ico">🎲</div><div><h4>La seed est ton dé</h4><p>Résultat presque bon ? Change la seed, pas tout le reste. Avec LTX (deux étapes), change d'abord la seed de l'étape 2.</p></div></div><div class="law"><div class="law-ico">🐢</div><div><h4>Brouillon avant chef-d&#x27;œuvre</h4><p>Itère en basse résolution (576p/720p, scale 0.5×), avec un <code>frame_load_cap</code> réduit et les aperçus activés. Génère toutes les images fixes avant les vidéos.</p></div></div><div class="law"><div class="law-ico">🧮</div><div><h4>Respecte les maths des frames</h4><p>Wan : <code>4n+1</code> frames (81, 121…). MiniMax H3 : 90, 107, 124… (pas de 17) jusqu'à 362. LTX : résolution divisible par 64. <strong>24 fps</strong> partout.</p></div></div><div class="law"><div class="law-ico">🔊</div><div><h4>Un son propre ou rien</h4><p>Dialogue seul, nettoyé (pas de musique ni de bruits), au moins aussi long que le plan. Sinon le modèle invente de l'audio ou fait bouger la bouche sur chaque bruit.</p></div></div><div class="law"><div class="law-ico">🗣️</div><div><h4>Dis ce que tu veux, pas ce que tu ne veux pas</h4><p>« no camera move » ne fait rien ; « one continuous take » marche. Et ne nomme jamais ce qui doit disparaître (casque, rig) dans le prompt : le modèle le dessinerait.</p></div></div><div class="law"><div class="law-ico">⚖️</div><div><h4>Lis les licences avant de vendre</h4><p>Flux 2 Klein 9B est non commercial (le 4B est plus permissif), et une LoRA hérite de la licence de son modèle de base. Mick a remplacé SMPL-X (non commercial) par SAM 3D Body dans son pipeline 4D.</p></div></div></div>
+
+ <h2 id="aiguillage">🧭 Quel niveau pour mon projet ?</h2>
+ <div class="panel"><ul class="router"><li><span>J&#x27;ai une vieille vidéo floue ou compressée</span><a href="#l1">🔍 Niveau 1</a></li><li><span>Je veux un personnage récurrent (et je peux entraîner une LoRA)</span><a href="#l2">🧬 Niveau 2</a></li><li><span>J&#x27;écris une histoire, sans 3D, en images fixes</span><a href="#l3">🎬 Niveau 3</a></li><li><span>Je veux des plans animés qui parlent, sans 3D</span><a href="#l4">🎞️ Niveau 4</a></li><li><span>J&#x27;ai des jouets, des découpages ou une prévis simple</span><a href="#l5">🪄 Niveau 5</a></li><li><span>J&#x27;ai une scène Blender et je veux un plan long, stylisé, sans dialogue</span><a href="#l6">⚙️ Niveau 6</a></li><li><span>J&#x27;ai une scène Blender avec des personnages qui parlent</span><a href="#l7">🐻 Niveau 7</a></li><li><span>J&#x27;ai un playblast clay et je veux un plan fini avec le son</span><a href="#l8">🗿 Niveau 8</a></li><li><span>J&#x27;ai filmé un vrai plan et je veux ajouter ou remplacer des éléments</span><a href="#l9">💥 Niveau 9</a></li><li><span>Je veux me transformer en créature en gardant mon jeu</span><a href="#l10">🐷 Niveau 10</a></li><li><span>Je veux un décor 3D explorable à partir d&#x27;une image</span><a href="#l11">🗺️ Niveau 11</a></li><li><span>Je veux filmer une personne en 4D (bullet time)</span><a href="#l12">🕶️ Niveau 12</a></li><li><span>Je veux produire un anime complet, voix et musique comprises</span><a href="#l13">👑 Niveau 13</a></li></ul></div>
+
+ <section class="world"><h2 class="world-title">Camp de base</h2><article class="level" id="l0" data-level="l0">
+<header class="lvl-head">
+<div class="thumb thumb-emoji" aria-hidden="true">🏕️</div>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 0 · <span class="diff" title="Difficulté">★☆☆☆☆</span> · <span class="xp-tag">+50 XP de défi</span></div>
+<h3>🏕️ Le Camp de base</h3>
+<p class="pitch">Avant toute quête, installe ton camp : ComfyUI à jour, le Manager, et le « rituel » que Mick répète dans presque chaque vidéo.</p>
+<div class="badge-slot" data-badge="l0"><span class="b-ico">🏕️</span> Badge : <strong>Campeur·euse</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>ComfyUI + ComfyUI-Manager</li>
+<li>ComfyUI-Mickmumpitz-Nodes (présent dans presque tous ses workflows)</li>
+<li>Optionnel : SageAttention (Windows, jusqu'à 2× plus rapide sur Wan)</li>
+<li>Optionnel : un template RunPod si ton GPU est trop juste</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l0-s0"><span>Installer ComfyUI (Mick a un guide d'installation gratuit sur mickmumpitz.ai) et ComfyUI-Manager.</span></label></li>
+<li><label><input type="checkbox" data-step="l0-s1"><span>Manager → <strong>Update All</strong>, puis redémarrer.</span></label></li>
+<li><label><input type="checkbox" data-step="l0-s2"><span>Le rituel : glisser le <code>.json</code> sur le canvas → Manager → <strong>Install Missing Custom Nodes</strong> → Install all → redémarrer → <code>Ctrl+Shift+R</code> dans le navigateur.</span></label></li>
+<li><label><input type="checkbox" data-step="l0-s3"><span>Télécharger les modèles dans les bons dossiers <code>models/…</code> (liens et dossiers sont dans les notes « START HERE » à gauche de chaque workflow).</span></label></li>
+<li><label><input type="checkbox" data-step="l0-s4"><span>Ouvrir chaque loader et vérifier que le nom de fichier correspond <strong>exactement</strong> (touche <code>R</code> pour rafraîchir la liste).</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Astuce de Mick : colle le guide d'installation dans ChatGPT ou Claude Code et laisse-le tout installer pour toi.</li>
+<li>Petit GPU : cherche les versions <strong>GGUF</strong>, <code>w4a8</code> ou <code>int8</code> des modèles, ou utilise les templates RunPod fournis avec chaque workflow.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> <strong>RES4LYF</strong> ne s'installe parfois pas via « Install Missing » : installe-le à la main depuis la liste des custom nodes du Manager. Nœuds Mickmumpitz manquants ? « Try Update » ou « Switch Version » sur 1.3.2.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l0"><span><strong>⚔️ Défi (+50 XP) :</strong> Faire tourner un petit workflow simple de bout en bout avant d'attaquer les gros.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/comfyui-getting-153738117" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article></section>
+<section class="world"><h2 class="world-title">Monde 1 · La Salle de post-prod</h2><article class="level" id="l1" data-level="l1">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=NpNagmQI4yg" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/NpNagmQI4yg/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">9:16</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 1 · <span class="diff" title="Difficulté">★☆☆☆☆</span> · <span class="xp-tag">+100 XP de défi</span></div>
+<h3>🔍 Le Zoom qui invente</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=NpNagmQI4yg" target="_blank" rel="noopener">STOP Paying for AI Upscaling - This FREE Tool is BETTER [ComfyUI Workflow + Tutorial]</a><br><span class="muted">25 nov. 2025 · 9:16 · ~173 k vues</span></p>
+<p class="pitch">Un upscaler <strong>génératif</strong> (Wan 2.2 + Ultimate SD Upscaler) qui crée du vrai détail jusqu'en HD, 2K ou 4K au lieu d'interpoler des pixels. Selon Mick, il bat souvent Topaz, et son équipe l'utilise sur presque tous ses projets. C'est le niveau tutoriel : on règle, on appuie sur Run.</p>
+<div class="badge-slot" data-badge="l1"><span class="b-ico">🔍</span> Badge : <strong>Œil de lynx</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>Wan 2.2 + LoRA lightning (mise à jour en v1.1)</li>
+<li>Ultimate SD Upscaler</li>
+<li>Sampler/scheduler RES4LYF</li>
+<li>Découpage automatique en lots (Batch Creator)</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l1-s0"><span>Charger la vidéo et régler <strong>Target Resolution</strong> (largeur, hauteur).</span></label></li>
+<li><label><input type="checkbox" data-step="l1-s1"><span>Choisir la qualité : <code>False</code> = 1 step (rapide), <code>True</code> = 2 steps (haute qualité, plus lent).</span></label></li>
+<li><label><input type="checkbox" data-step="l1-s2"><span>Régler <strong>Creativity</strong> : bas = fidèle à la source, haut = plus de détails inventés.</span></label></li>
+<li><label><input type="checkbox" data-step="l1-s3"><span>Mettre <strong>Frames per Iteration</strong> sous la longueur du clip pour activer le découpage automatique, et <strong>Overlap Frames</strong> à 16 (bon compromis pour les raccords).</span></label></li>
+<li><label><input type="checkbox" data-step="l1-s4"><span>Lancer. Le prompt est généré automatiquement (tu peux ajouter tes propres lignes).</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Longues séquences en 4K : mets <strong>Save Image Sequence</strong> à <code>True</code> pour éviter les soucis de mémoire, puis réassemble dans Resolve ou After Effects.</li>
+<li>Ne touche pas aux sous-graphes Batch Creator / Blend : ce ne sont que des maths.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> Une Creativity trop élevée crée des artefacts de bruit.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l1"><span><strong>⚔️ Défi (+100 XP) :</strong> Prendre une vieille vidéo compressée (480p) et la passer en 2K, puis comparer avant/après côte à côte.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/stop-paying-for-154393504" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article></section>
+<section class="world"><h2 class="world-title">Monde 2 · La Fabrique de personnages</h2><article class="level" id="l2" data-level="l2">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=ghFYDG0DF1w" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/ghFYDG0DF1w/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">34:28</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 2 · <span class="diff" title="Difficulté">★★☆☆☆</span> · <span class="xp-tag">+150 XP de défi</span></div>
+<h3>🧬 L'Usine à sosies</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=ghFYDG0DF1w" target="_blank" rel="noopener">Create HYPERREALISTIC AI Characters That INTERACT | FREE &amp; LOCAL</a><br><span class="muted">17 juil. 2026 · 34:28 · ~75 k vues</span></p>
+<p class="pitch"><strong>Consistent Character Creator 4.0</strong> : une seule image de référence → un dataset complet du personnage (T-pose, marche de profil, gros plans, tout le board). Tu ne gardes que les images réussies, tu les légendes, puis tu entraînes ton casting dans <strong>une LoRA</strong>.</p>
+<div class="badge-slot" data-badge="l2"><span class="b-ico">🧬</span> Badge : <strong>Cloneur·euse</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>Flux 2 Klein 9B (fp8)</li>
+<li>Text encoder <code>qwen_3_8b_fp8mixed</code></li>
+<li><code>flux2-vae</code></li>
+<li>LoRA <code>Flux2-Klein-9B-consistency-V2</code> (réglée à 0.35)</li>
+<li>7 packs de nœuds seulement (version simple)</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l2-s0"><span>Charger <code>260713_MICKMUMPITZ_CCC_4-0_SMPL.json</code> et faire le rituel.</span></label></li>
+<li><label><input type="checkbox" data-step="l2-s1"><span>Télécharger les 4 modèles. Laisser le type de CLIP sur <code>flux2</code> et la LoRA à 0.35.</span></label></li>
+<li><label><input type="checkbox" data-step="l2-s2"><span>Charger ta référence et donner le <strong>nom du personnage</strong> dans OUTPUT NAMING <em>maintenant</em> (Mick : renommer 60 images plus tard n'a rien d'une soirée amusante).</span></label></li>
+<li><label><input type="checkbox" data-step="l2-s3"><span><strong>Save Dataset</strong> : <code>2</code> pour prévisualiser, <code>1</code> pour sauvegarder. Queue Prompt.</span></label></li>
+<li><label><input type="checkbox" data-step="l2-s4"><span>Trier : ne garder que les images qui ressemblent vraiment au personnage (dans <code>ComfyUI/output/CCC/&lt;NOM&gt;/</code>).</span></label></li>
+<li><label><input type="checkbox" data-step="l2-s5"><span>Étape suivante : légender avec le workflow <strong>DATASET-TAGGER</strong>, puis entraîner la LoRA.</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Décris le personnage dans tes prompts pour garder le dataset cohérent.</li>
+<li>Sur RunPod, le modèle est « gated » : accepte la licence sur Hugging Face, puis <code>hf auth login</code> et <code>hf download</code> directement sur le pod (bien plus rapide que par le navigateur).</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> <strong>Licences !</strong> Flux 2 Klein 9B est non commercial, et ta LoRA en hérite même si le fichier est à toi. Pour vendre : la version 3.5 ou la version Qwen Image Edit (licence plus permissive). Mick prépare une version basée sur Krea 2 (usage commercial gratuit sous 50 personnes).</div>
+<label class="challenge"><input type="checkbox" data-challenge="l2"><span><strong>⚔️ Défi (+150 XP) :</strong> Créer un personnage original à partir d'un croquis ou d'une photo, générer son board complet et garder au moins 20 images validées.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/new-video-free-4-164075060" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article>
+<article class="level" id="l3" data-level="l3">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=YpuSE9hcal8" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/YpuSE9hcal8/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">17:00</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 3 · <span class="diff" title="Difficulté">★★☆☆☆</span> · <span class="xp-tag">+150 XP de défi</span></div>
+<h3>🎬 Le Clap plan par plan</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=YpuSE9hcal8" target="_blank" rel="noopener">Build your own AI MOVIES shot by shot - FREE &amp; LOCAL! [AI Filmmaking in ComfyUI - 2025]</a><br><span class="muted">1 nov. 2025 · 17:00 · ~203 k vues</span></p>
+<p class="pitch">Des films plan par plan avec personnages et décors cohérents, <strong>sans entraîner de LoRA</strong>. On déplace la caméra dans des environnements à 360°, on change de personnage ou de lieu instantanément, on dirige avec de simples prompts. Tous les styles marchent : réaliste, anime, pâte à modeler.</p>
+<div class="badge-slot" data-badge="l3"><span class="b-ico">🎬</span> Badge : <strong>Story-boardeur·euse</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<p class="note">ℹ️ Le post compagnon de cette vidéo est court : les étapes ci-dessus résument la logique décrite ; le pas-à-pas détaillé est dans la vidéo.</p>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>Qwen Image Edit</li>
+<li>LoRA <strong>Next Scene</strong> (communauté)</li>
+<li>LoRA 360° maison de Mick pour les plans d'environnement</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l3-s0"><span>Récupérer le workflow et la LoRA 360° de Mick (les autres modèles sont listés dans les notes du workflow).</span></label></li>
+<li><label><input type="checkbox" data-step="l3-s1"><span>Générer un environnement à 360° à partir d'une image de décor.</span></label></li>
+<li><label><input type="checkbox" data-step="l3-s2"><span>Cadrer chaque plan en déplaçant ta caméra dans ce décor 360°.</span></label></li>
+<li><label><input type="checkbox" data-step="l3-s3"><span>Ajouter ton personnage de référence et décrire l'action du plan en texte.</span></label></li>
+<li><label><input type="checkbox" data-step="l3-s4"><span>Enchaîner les plans avec Next Scene pour garder la continuité.</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Change l'image du personnage ou du décor pour réutiliser toute ta séquence avec un autre casting.</li>
+<li>Cette méthode est l'ancêtre du Movie Builder LTX 2.3 (niveau 4), qui ajoute la vidéo et les voix.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> Un lien de modèle erroné a été corrigé le 3 nov. 2025 : télécharge toujours la dernière version du workflow.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l3"><span><strong>⚔️ Défi (+150 XP) :</strong> Un storyboard de 6 plans dans un même décor 360°, puis remplacer le héros par un autre personnage sans réécrire les prompts.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/new-video-build-142571395" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article></section>
+<section class="world"><h2 class="world-title">Monde 3 · Le Plateau de tournage</h2><article class="level" id="l4" data-level="l4">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=0mT4p86ZxGQ" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/0mT4p86ZxGQ/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">10:43</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 4 · <span class="diff" title="Difficulté">★★★☆☆</span> · <span class="xp-tag">+200 XP de défi</span></div>
+<h3>🎞️ Le Plateau modulaire</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=0mT4p86ZxGQ" target="_blank" rel="noopener">Generate ENTIRE AI MOVIES with this NEW METHOD! [FREE &amp; LOCAL]</a><br><span class="muted">4 mai 2026 · 10:43 · ~75 k vues</span></p>
+<p class="pitch">Le <strong>Movie Builder</strong> : une référence personnage, une référence décor, un échantillon de voix et un prompt → image de départ (Flux 2 Klein) → vidéo avec dialogue synchronisé (LTX 2.3) → plan suivant. Rien n'est figé : change l'image du héros et tout le film change de héros.</p>
+<div class="badge-slot" data-badge="l4"><span class="b-ico">🎞️</span> Badge : <strong>Monteur·euse</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>LTX 2.3 (vidéo + audio, distillé en 2 étapes)</li>
+<li>Flux 2 Klein 9B (ou 4B, licence plus permissive)</li>
+<li>LoRA <code>ltx-2.3-id-lora-talkvid</code> (clonage de voix)</li>
+<li>Upscaler spatial ×2</li>
+<li>ShotDuplicator / ShotAssembler (Mickmumpitz Nodes)</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l4-s0"><span>Groupe <strong>Settings</strong> : image à 1152 px, vidéo en 720p pour itérer, 24 fps.</span></label></li>
+<li><label><input type="checkbox" data-step="l4-s1"><span><strong>Load Protagonist Images</strong> : un gros plan du visage plus un plein pied de 3/4. Le sous-graphe produit FACE, BODY et FACEBODY.</span></label></li>
+<li><label><input type="checkbox" data-step="l4-s2"><span><strong>Audio Reference 01</strong> : un échantillon de voix propre de 5 secondes.</span></label></li>
+<li><label><input type="checkbox" data-step="l4-s3"><span>Dans chaque plan : FACEBODY dans l'entrée 1, un prompt vague mais ancré, puis ▶ sur Save Image pour générer seulement l'image.</span></label></li>
+<li><label><input type="checkbox" data-step="l4-s4"><span>Partie vidéo : durée en secondes, interrupteur <strong>voix</strong> activé pour les dialogues, réplique dans le champ dialogue, ▶ sur Save Video.</span></label></li>
+<li><label><input type="checkbox" data-step="l4-s5"><span><strong>Shot Duplicator → Add Shot</strong> pour chaque nouveau plan (Color Match sur le plan 01 câblé automatiquement). L'ordre de la shotlist = l'ordre du montage.</span></label></li>
+<li><label><input type="checkbox" data-step="l4-s6"><span><strong>Final Movie Output</strong> : le ShotAssembler assemble le film. Donne un <em>Folder label</em> unique (draft_01, draft_02…).</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Mauvaise voix ? Change d'abord la seed de l'étape 2, puis celle de l'étape 1.</li>
+<li>Utilise le toggle du haut pour générer <strong>toutes les images d'abord</strong> : tu évites de charger et décharger Flux et LTX à chaque plan.</li>
+<li>Les 4 entrées de référence sont agnostiques : personnage, accessoire, décor… Les groupes <strong>Asset Creator</strong> fabriquent les accessoires.</li>
+<li>Le décor change quand tu zoomes ? Ajoute l'image du plan précédent comme référence.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> Dupliquer un plan à la main au lieu d'utiliser le Shot Duplicator : le Color Match n'est pas câblé et l'étalonnage saute d'un plan à l'autre.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l4"><span><strong>⚔️ Défi (+200 XP) :</strong> Un court de 4 plans avec une réplique, puis la même histoire avec un autre héros en changeant seulement l'image de référence et la voix.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/guide-ltx-2-3-157329723" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article>
+<article class="level" id="l5" data-level="l5">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=pUb58eAZ3pc" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/pUb58eAZ3pc/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">10:40</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 5 · <span class="diff" title="Difficulté">★★★☆☆</span> · <span class="xp-tag">+200 XP de défi</span></div>
+<h3>🪄 Le Marionnettiste</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=pUb58eAZ3pc" target="_blank" rel="noopener">AI is finally controllable! …with a stick [FREE ComfyUI Workflow + Tutorial]</a><br><span class="muted">17 déc. 2025 · 10:40 · ~124 k vues</span></p>
+<p class="pitch">Tu bouges des jouets ou des découpages au bout d'un <strong>bâton</strong> dans ton décor ; le workflow efface le bâton et anime l'objet en suivant exactement ton geste, avec ombres, reflets et interactions. C'est basé sur le papier de recherche <strong>Time-to-Move</strong> (sans entraînement), qui marche le mieux avec Wan 2.2. Mick en a tiré un court-métrage de jouets qui prennent vie.</p>
+<div class="badge-slot" data-badge="l5"><span class="b-ico">🪄</span> Badge : <strong>Marionnettiste</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>Wan 2.2 + Time-to-Move (TTM latents)</li>
+<li>Qwen Image Edit pour effacer le bâton</li>
+<li>SAM3 (ou SAM2) pour le masque du sujet</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l5-s0"><span>Workflow de <strong>préparation</strong> : charger la vidéo (rester en 720p) et donner un <code>SET SHOTNUMBER</code> unique à chaque plan.</span></label></li>
+<li><label><input type="checkbox" data-step="l5-s1"><span>Récupérer la première et la dernière image : clic droit → Copy Image, puis <code>Ctrl+V</code> dans un Load Image, et peindre le masque d'inpainting.</span></label></li>
+<li><label><input type="checkbox" data-step="l5-s2"><span><strong>Qwen Remove</strong> : prompt « remove the wooden stick » (autre seed ou masque plus large si ça résiste).</span></label></li>
+<li><label><input type="checkbox" data-step="l5-s3"><span><strong>SAM3</strong> : choisir l'image où le sujet est le plus visible, clic gauche sur le sujet, clic droit pour des points négatifs sur le bâton.</span></label></li>
+<li><label><input type="checkbox" data-step="l5-s4"><span>Workflow <strong>Time2Move</strong> : charger l'image de début et/ou de fin, plus la vidéo d'entrée et la vidéo masque (ces deux-là sont obligatoires).</span></label></li>
+<li><label><input type="checkbox" data-step="l5-s5"><span>Résolution : <code>1</code> = 576p, <code>2</code> = 720p, <code>3</code> = personnalisée. Commencer par un prompt court (« A plush dinosaur jumps »).</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Environ <strong>70 %</strong> des plans du court ont marché du premier coup.</li>
+<li>Pas de bâton ? Une prévis animée dans Blender ou After Effects sert aussi de référence de mouvement.</li>
+<li>Pour se rajeunir avec Wan Animate, Mick a dû entraîner une LoRA sur ses photos d'enfance : sans elle, il changeait de visage à chaque plan.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> <code>WanVideo Add TTMLatents</code> est réglé sur <code>end_step 2</code>. À 3, le résultat suit plus strictement ta vidéo, mais l'équipe trouvait les rendus moins beaux.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l5"><span><strong>⚔️ Défi (+200 XP) :</strong> Faire voler une peluche à travers ta pièce avec un bâton, caméra à la main.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/ai-video-with-154392669" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article></section>
+<section class="world"><h2 class="world-title">Monde 4 · La Salle des machines (rendu 3D → IA)</h2><article class="level" id="l6" data-level="l6">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=0WkixvqnPXw" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/0WkixvqnPXw/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">15:30</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 6 · <span class="diff" title="Difficulté">★★★☆☆</span> · <span class="xp-tag">+200 XP de défi</span></div>
+<h3>⚙️ Le Moteur de rendu 2.0</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=0WkixvqnPXw" target="_blank" rel="noopener">We Built an AI Render Engine for FREE</a><br><span class="muted">25 févr. 2026 · 15:30 · ~182 k vues</span></p>
+<p class="pitch"><strong>AI Renderer 2.0</strong> : exporte des passes de profondeur et de contours depuis Blender, fabrique une image de référence avec Z-Image Turbo, et le merge <strong>SkyReels V3 × Wan VACE</strong> rend une vidéo stylisée qui suit exactement ta géométrie : textures, lumière, fumée, eau, débris.</p>
+<div class="badge-slot" data-badge="l6"><span class="b-ico">⚙️</span> Badge : <strong>Mécano du rendu</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>Blender (passes line art + depth)</li>
+<li>Z-Image Turbo + ControlNet (image de départ)</li>
+<li>Merge SkyReels V3 R2V × Wan VACE (versions GGUF depuis le 23/03/2026)</li>
+<li>Méthode Phantom : jusqu'à 4 références</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l6-s0"><span>Exporter de Blender une passe <strong>line art</strong> et une passe <strong>depth</strong> en vidéo.</span></label></li>
+<li><label><input type="checkbox" data-step="l6-s1"><span>Charger 1 ou 2 vidéos de contrôle ; activer <strong>Blending</strong> : Mick utilise line art + 20 % de depth (la line art seule suffit souvent).</span></label></li>
+<li><label><input type="checkbox" data-step="l6-s2"><span>Créer l'image de départ (le style) avec le workflow Z-Image Turbo.</span></label></li>
+<li><label><input type="checkbox" data-step="l6-s3"><span>Une seule image = méthode <em>start image</em> ; plusieurs images = méthode <strong>Phantom</strong> (personnage et décor séparés, jusqu'à 4).</span></label></li>
+<li><label><input type="checkbox" data-step="l6-s4"><span>Écrire le prompt et lancer (jusqu'à environ 121 frames en une passe).</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Version avancée pour les clips longs : <code>frames_per_iteration</code> en 4n+1, <code>num_start_frames</code> autour de 14.</li>
+<li>Nombre d'itérations = frames totales ÷ (frames_per_iteration − num_start_frames). <code>resume_from_iteration</code> permet de refaire un seul segment.</li>
+<li>Change la référence de style pour changer instantanément la direction artistique.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> Version avancée : <strong>un seul job à la fois</strong>. Plusieurs jobs avec des entrées différentes « déteignent » les uns sur les autres dans la chaîne d'itérations.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l6"><span><strong>⚔️ Défi (+200 XP) :</strong> Bloquer une scène en cubes dans Blender (5 minutes maximum), puis la rendre dans deux styles différents en changeant seulement l'image de référence.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/ai-renderer-2-0-153434545" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article>
+<article class="level" id="l7" data-level="l7">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=7J7hi-Hxpac" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/7J7hi-Hxpac/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">23:00</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 7 · <span class="diff" title="Difficulté">★★★★☆</span> · <span class="xp-tag">+250 XP de défi</span></div>
+<h3>🐻 Bear Minimum</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=7J7hi-Hxpac" target="_blank" rel="noopener">We Built a FREE AI Render Engine for CG &amp; Facial Animation (ComfyUI + Blender)</a><br><span class="muted">19 juin 2026 · 23:00 · ~67 k vues</span></p>
+<p class="pitch">Le pipeline du court <em>Bear Minimum</em>, un motel tenu par une famille d'ours. Tu maquettes en 3D, une image Flux 2 Klein fixe le style, et <strong>LTX 2.3</strong> rend le plan animé <strong>et synchronisé sur les lèvres</strong> à partir d'un fichier audio. Vidéo sponsorisée par NVIDIA ; les workflows restent gratuits.</p>
+<div class="badge-slot" data-badge="l7"><span class="b-ico">🐻</span> Badge : <strong>Gérant·e de motel</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>Flux 2 Klein 9B + LoRA consistency (0.7)</li>
+<li>LTX 2.3 22B (dev + distilled, fp8) + Gemma 3 12B</li>
+<li>IC-LoRA union-control <strong>19B</strong> + IC-LoRA detailer</li>
+<li>NVIDIA RTX Video Super Resolution (upscale 4K)</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l7-s0"><span>Depuis Blender, rendre en vidéo : passe <strong>depth</strong> (blanc = proche), passe <strong>canny/layout</strong> (moteur Workbench, MatCap, Cavity + Outlines), <strong>masque bouche</strong> (noir = l'IA peut animer) et un <strong>MP3</strong> de dialogue seul.</span></label></li>
+<li><label><input type="checkbox" data-step="l7-s1"><span>Étape 1, Flux Klein : layout + depth en entrée, jusqu'à 4 références, un prompt qui dit qui est où, puis le style et la lumière (1920×1088). Itérer jusqu'à l'image guide parfaite.</span></label></li>
+<li><label><input type="checkbox" data-step="l7-s2"><span>Étape 2, LTX : résolution <strong>divisible par 64</strong> (1408×768, 1920×1088) et FRAME LOAD CAP = longueur du plan.</span></label></li>
+<li><label><input type="checkbox" data-step="l7-s3"><span>Charger jusqu'à 3 images guides (début, milieu, fin) à leur position exacte, force 0.75 à 0.9.</span></label></li>
+<li><label><input type="checkbox" data-step="l7-s4"><span>Charger depth, canny, masque bouche et voix ; mettre <strong>USE MASK VIDEO</strong> à true pour le lip sync.</span></label></li>
+<li><label><input type="checkbox" data-step="l7-s5"><span>Prompt : décrire ce qui se passe, dans l'ordre, en insistant sur les expressions. Queue.</span></label></li>
+<li><label><input type="checkbox" data-step="l7-s6"><span>Étape 3 : passer en 4K avec RTX Video Super Resolution (quelques secondes, sur toute carte RTX).</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Active les aperçus : souvent, dès le premier step, on voit si le plan marche. Stop et corrige.</li>
+<li>Baisser la force du ControlNet laisse LTX inventer davantage : bien pour un mouvement simple, mais ça casse les animations complexes.</li>
+<li>Le masque bouche : plus la zone noire est grande, plus le visage s'anime.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> L'audio doit durer <strong>au moins</strong> autant que le plan, sinon le modèle invente du son après la voix. Et prends bien la LoRA union-control <strong>19B</strong>, pas la 22B : elle marche mieux avec les nœuds de Mick.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l7"><span><strong>⚔️ Défi (+250 XP) :</strong> Un plan de dialogue de 5 s : un personnage low-poly qui dit une réplique enregistrée avec ton téléphone.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/new-video-free-161509029" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article>
+<article class="level" id="l8" data-level="l8">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=Q2oVBVQNQ_U" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/Q2oVBVQNQ_U/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">14:09</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 8 · <span class="diff" title="Difficulté">★★★☆☆</span> · <span class="xp-tag">+200 XP de défi</span></div>
+<h3>🗿 La Pâte qui prend vie</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=Q2oVBVQNQ_U" target="_blank" rel="noopener">This new AI Render Engine is amazing!</a><br><span class="muted">12 août 2026 · 14:09 · ~68 k vues</span></p>
+<p class="pitch">Un playblast gris en « clay » + une description du look = <strong>un plan fini, avec le son</strong>. Avec <strong>MiniMax H3</strong>, plus de pile de ControlNet, ni de passe depth, ni d'OpenPose : selon Mick, ça fait ce que son équipe contournait depuis trois ans.</p>
+<div class="badge-slot" data-badge="l8"><span class="b-ico">🗿</span> Badge : <strong>Sculpteur·rice</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>MiniMax H3 <code>ref2va</code> int8 (21 Go) ou <code>w4a8</code> (11,8 Go)</li>
+<li>Text encoder Qwen3-VL 32B</li>
+<li>2 VAE : image + son</li>
+<li>Turbo LoRA (4 steps au lieu de 20)</li>
+<li>SeedVR2 (version avancée)</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l8-s0"><span>Prendre le modèle <strong>ref2va</strong> (pas fl2va) et les <strong>deux</strong> VAE.</span></label></li>
+<li><label><input type="checkbox" data-step="l8-s1"><span>Groupe 1 : vérifier que les 4 loaders trouvent leur fichier.</span></label></li>
+<li><label><input type="checkbox" data-step="l8-s2"><span>Préparer la vidéo clay : <strong>24 fps</strong>, environ 1 mégapixel (1920×1080 convient), longueur parmi 90, 107, 124, 141… jusqu'à 362 frames (~15 s).</span></label></li>
+<li><label><input type="checkbox" data-step="l8-s3"><span>Groupe 4 : charger CLAY VIDEO, puis une <strong>LOOK PLATE</strong> (image fixe de matière, couleur, lumière). Sélectionner le nœud et <code>Ctrl+B</code> pour l'activer (jusqu'à 3).</span></label></li>
+<li><label><input type="checkbox" data-step="l8-s4"><span>Groupe 5 : prompt avec les balises <code>&lt;Video 1&gt;</code> et <code>&lt;Picture 1&gt;</code>, la description du look, un bloc <strong>Timeline</strong> qui va jusqu'à la fin du clip et une ligne <strong>Audio</strong>.</span></label></li>
+<li><label><input type="checkbox" data-step="l8-s5"><span>Groupe 3 : seed, 4 steps avec la Turbo LoRA, <code>aspect_ratio</code> sur « From reference ». Run.</span></label></li>
+</ol></section></div>
+<div class="scroll"><div class="scroll-h">📜 Parchemin : le modèle de prompt H3 (condensé) <button class="copy" type="button" data-copy="l8">Copier</button></div><pre id="scroll-l8">&lt;Video 1&gt; is an untextured grey clay render, it defines layout, staging and animation.
+Follow the composition, subject positions and timing of &lt;Video 1&gt; exactly, frame by frame.
+Keep the geometry, layout and animation unchanged and give them material, colour and
+lighting from the description below.
+[Décris la scène : qui, tenues, environnement, heure, lumière, look film]
+Timeline:
+[0s-6.5s] [ce qui se passe, jusqu&#x27;à la fin du clip]
+The camera move comes entirely from &lt;Video 1&gt;. One continuous take.
+Audio: [les sons voulus, présents sur tout le clip]
+Render every frame fully. No on-screen text.</pre></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Décris le <strong>look</strong>, pas la mise en scène : la mise en scène vient de la vidéo.</li>
+<li>Ta propre voix : complète l'audio avec du silence jusqu'à la longueur du clip, mets la réplique entre guillemets avec « once and only once », et fais deux rendus (le début de la parole bouge avec la seed).</li>
+<li>Scale 0.5× ou 0.75× pour des brouillons rapides ; 1.0× est la taille d'entraînement du modèle.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> Un clip de 150 frames est rendu en <strong>141</strong> : le reste est coupé. Et un clip qui n'est pas à 24 fps fait dériver le mouvement.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l8"><span><strong>⚔️ Défi (+200 XP) :</strong> Animer une balle qui rebondit en clay dans Blender et la rendre dans 3 looks (une look plate différente à chaque fois), avec le bruitage.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/new-video-free-166463119" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article></section>
+<section class="world"><h2 class="world-title">Monde 5 · Le Studio VFX</h2><article class="level" id="l9" data-level="l9">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=_n0ir5V5tX4" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/_n0ir5V5tX4/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">19:12</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 9 · <span class="diff" title="Difficulté">★★★★☆</span> · <span class="xp-tag">+250 XP de défi</span></div>
+<h3>💥 Le Studio VFX de poche</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=_n0ir5V5tX4" target="_blank" rel="noopener">I Built a FREE VFX Pipeline with Local AI [2026 Masterclass]</a><br><span class="muted">30 mars 2026 · 19:12 · ~205 k vues</span></p>
+<p class="pitch"><strong>AI VFX 1.0</strong> : masque une zone de ta vidéo et remplace-la par du contenu IA qui suit précisément la géométrie de la scène. Le cœur : le merge d'Inner-Reflections, <strong>SkyReels V3 R2V</strong> (compréhension des références) × <strong>Wan VACE</strong> (ControlNet et inpainting). Quatre ingrédients à doser : masques, ControlNets, images de référence, prompts.</p>
+<div class="badge-slot" data-badge="l9"><span class="b-ico">💥</span> Badge : <strong>Artificier·ère</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>Merge <code>wan-14B_vace_skyreels_v3_R2V</code> : FP8 (24 Go et plus) ou GGUF Q4_K_M</li>
+<li>RES4LYF</li>
+<li>Préprocesseur : SAM3, DepthCrafter, Canny, DWPose, CoTracker</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l9-s0"><span><strong>Préprocesseur</strong> : charger la vidéo source (720p). Il sort masque, depth, canny, pose, tracking, plaque grise et image de départ.</span></label></li>
+<li><label><input type="checkbox" data-step="l9-s1"><span>Sous « CHOOSE HERE! », choisir quelle donnée de ControlNet part dans la driving video (tracking par défaut).</span></label></li>
+<li><label><input type="checkbox" data-step="l9-s2"><span>Workflow principal : brancher le loader FP8 ou GGUF sur le nœud LoRA, et commencer en 576p.</span></label></li>
+<li><label><input type="checkbox" data-step="l9-s3"><span>Charger <strong>DRIVING VIDEO</strong> et <strong>MASK</strong> (même longueur, même fps).</span></label></li>
+<li><label><input type="checkbox" data-step="l9-s4"><span>Ajouter une image de départ et/ou jusqu'à 4 références (pour changer un personnage : au moins une vue de face et une de profil ou de dos).</span></label></li>
+<li><label><input type="checkbox" data-step="l9-s5"><span>Sampler : prompt détaillé, 5 steps, mode <em>Start + Reference</em>, <em>Reference</em> ou <em>Auto</em>. Activer la comparaison côte à côte.</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li><strong>Canny</strong> garde la géométrie exacte ; <strong>depth</strong> garde la composition mais change tout le reste ; <strong>pose</strong> sert à remplacer un personnage ; le <strong>tracking</strong> (carrés blancs) fait comprendre le mouvement de caméra.</li>
+<li>Version avancée : un prompt et une seed par itération, frames en 4n+1, <code>resume_from_iteration</code>, et Color Match à désactiver si l'environnement change beaucoup.</li>
+<li>After Effects, Fusion ou Nuke restent recommandés pour la driving video et le compositing final, mais ne sont pas obligatoires.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> Le post et le guide se contredisent sur la couleur du masque. Le guide détaillé dit <strong>noir = garder, blanc = remplacer</strong>. Fais un test court avant un long rendu.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l9"><span><strong>⚔️ Défi (+250 XP) :</strong> Remplacer le ciel ou le décor derrière toi sur un plan caméra à la main de 3 s, sans After Effects.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/free-guide-epic-154092216" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article>
+<article class="level" id="l10" data-level="l10">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=2MzCkYrvDaI" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/2MzCkYrvDaI/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">11:30</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 10 · <span class="diff" title="Difficulté">★★★★☆</span> · <span class="xp-tag">+250 XP de défi</span></div>
+<h3>🐷 Groin groin</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=2MzCkYrvDaI" target="_blank" rel="noopener">I turned myself into a pig with AI [Free &amp; Local VFX Tutorial]</a><br><span class="muted">7 oct. 2026 · 11:30 · ~31 k vues</span></p>
+<p class="pitch">La <strong>performance capture</strong> locale avec MiniMax H3 : deviens n'importe quelle créature, ou une autre personne, avec une seule caméra. H3 ne régénère que la zone masquée : le mouvement de caméra reste verrouillé, ton corps et la pièce restent réels, et l'audio est ton vrai enregistrement. La créature joue comme toi : voix, bouche, expressions, mouvements de tête.</p>
+<div class="badge-slot" data-badge="l10"><span class="b-ico">🐷</span> Badge : <strong>Cochon d&#x27;or</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>MiniMax H3 <code>ref2va</code> + Turbo LoRA 8 steps</li>
+<li>LoRA Character Swap (communauté)</li>
+<li>SAM 3.1 (masques à partir de mots)</li>
+<li>ControlNet Union 2.0 (pose), H3-FaceRefine, DWPose</li>
+<li>ComfyUI 0.37 ou plus, GPU de 16 Go minimum (testé à partir de 24 Go), RAM de 32 Go et plus</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l10-s0"><span>Filmer en paysage, <strong>avec son</strong>, 15 s maximum. Nettoyer l'audio : H3 fait bouger la bouche sur chaque bruit.</span></label></li>
+<li><label><input type="checkbox" data-step="l10-s1"><span><strong>BODY CLIP</strong> : charger la prise (baisser <code>frame_load_cap</code> pour tester les premières secondes).</span></label></li>
+<li><label><input type="checkbox" data-step="l10-s2"><span><strong>CREATURE SHEET</strong> : face + profil avec tes vêtements, plus quelques têtes aux expressions exagérées. Sinon, activer NO CHARACTER SHEET et décrire la créature.</span></label></li>
+<li><label><input type="checkbox" data-step="l10-s3"><span><strong>WHAT GETS REPLACED</strong> : les mots que SAM cherche (« head » ou « person », + « helmet, phone, camera rig on the helmet »). Vérifier le PREVIEW.</span></label></li>
+<li><label><input type="checkbox" data-step="l10-s4"><span><strong>PROMPT</strong> : la créature et son jeu, en langage naturel (modèles fournis dans <code>PROMPT_TEMPLATES.txt</code>). Inutile d'écrire le dialogue : ta voix pilote la bouche.</span></label></li>
+<li><label><input type="checkbox" data-step="l10-s5"><span>Run. Vérifier les aperçus avant d'attendre le rendu ; une vidéo comparative entrée/sortie est sauvegardée.</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Une caméra suffit. La deuxième sur le visage (le casque bricolé de la vidéo) n'aide que pour les plans larges ou quand tu te détournes.</li>
+<li>Réglage <em>head-size</em> contre l'effet « tête à ressort ». Plusieurs personnes : nomme celle qui joue et règle PERSON (0 = la plus à gauche).</li>
+<li>Moins de 32 Go de VRAM : CLIP loader sur <code>cpu</code>. Carte antérieure aux RTX 50 : text encoder <code>int8</code> au lieu de <code>nvfp4</code>.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> <strong>Ne nomme jamais ton casque ni ton rig dans le prompt</strong> : ça pousse H3 à les dessiner (ils vont seulement dans WHAT GETS REPLACED). Et un clip sans son arrête le run.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l10"><span><strong>⚔️ Défi (+250 XP) :</strong> Te transformer en animal qui récite une tirade de 10 s, en plan fixe, avec une seule caméra.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/new-video-free-171702311" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article></section>
+<section class="world"><h2 class="world-title">Monde 6 · Au-delà de l&#x27;écran (3D &amp; 4D)</h2><article class="level" id="l11" data-level="l11">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=eJuYBNrD8HI" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/eJuYBNrD8HI/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">17:55</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 11 · <span class="diff" title="Difficulté">★★★★★</span> · <span class="xp-tag">+300 XP de défi</span></div>
+<h3>🗺️ Le Cartographe</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=eJuYBNrD8HI" target="_blank" rel="noopener">We Open Sourced World Generation</a><br><span class="muted">25 août 2026 · 17:55 · ~149 k vues</span></p>
+<p class="pitch">Une image ou un prompt → <strong>un monde 3D complet</strong> où se promener, en local. La base est <strong>Matrix-3D</strong> de Skywork : panorama 360° → mesh grossier tiré de la profondeur → une caméra qui vole dedans → Wan 2.1 bouche les trous. La version officielle ne tourne que sous Linux ; l'équipe de Mick l'a reconstruite en nœuds ComfyUI, accélérée avec lightx2v, et dotée d'un éditeur de trajectoire de drone.</p>
+<div class="badge-slot" data-badge="l11"><span class="b-ico">🗺️</span> Badge : <strong>Cartographe</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>Matrix-3D (LoRA entraînée sur 116 759 séquences de drone dans Unreal Engine)</li>
+<li>Wan 2.1 + lightx2v</li>
+<li>Workflows TEXT2SPHERE / IMG2SPHERE</li>
+<li>Export COLMAP → Brush (entraînement de splats) → SuperSplat (aperçu dans le navigateur)</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l11-s0"><span>Workflow panorama 360° : <strong>TEXT2SPHERE</strong> (depuis un prompt) ou <strong>IMG2SPHERE</strong> (depuis une image).</span></label></li>
+<li><label><input type="checkbox" data-step="l11-s1"><span>Workflow dataset : dessiner la trajectoire du drone dans l'éditeur de chemin.</span></label></li>
+<li><label><input type="checkbox" data-step="l11-s2"><span>Laisser Wan 2.1 combler les zones manquantes ; le panorama 8K d'origine est reprojeté par-dessus.</span></label></li>
+<li><label><input type="checkbox" data-step="l11-s3"><span>Récupérer le dataset <strong>COLMAP</strong> et entraîner le Gaussian Splat dans <strong>Brush</strong>.</span></label></li>
+<li><label><input type="checkbox" data-step="l11-s4"><span>Prévisualiser le splat dans le navigateur avec superspl.at/editor.</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Tous les modèles sont listés dans les notes à gauche du workflow. Installe le patch SageAttention pour accélérer.</li>
+<li>Approches testées puis écartées : Apple SHARP (préserve une scène au lieu d'en inventer), HY-World 2.0 et Lyra (trop lourds pour du matériel grand public), LoRA H3 (prometteur, pas encore au point).</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> N'upscale pas la sortie 720p : la reprojection du panorama 8K est plus nette et plus rapide (mieux que SeedVR2, selon Mick).</div>
+<label class="challenge"><input type="checkbox" data-challenge="l11"><span><strong>⚔️ Défi (+300 XP) :</strong> Générer un monde à partir d'une photo de vacances et y faire un vol de drone de 10 s.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/new-video-free-167647096" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article>
+<article class="level" id="l12" data-level="l12">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=nYisoS5wPYQ" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/nYisoS5wPYQ/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">8:21</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 12 · <span class="diff" title="Difficulté">★★★★★</span> · <span class="xp-tag">+300 XP de défi</span></div>
+<h3>🕶️ Bullet time maison</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=nYisoS5wPYQ" target="_blank" rel="noopener">4D video is here, and it runs on your own computer</a><br><span class="muted">11 sept. 2026 · 8:21 · ~59 k vues</span></p>
+<p class="pitch">Une vidéo de téléphone → <strong>un humain en 4D</strong> (un Gaussian Splat par frame) autour duquel une caméra virtuelle peut tourner. C'est le portage ComfyUI de <strong>4DAnyone</strong> (Ant Research et Université du Zhejiang), qui tourne sur Wan 2.2. Le test ultime : le <em>bullet time</em> de Matrix, fait à l'origine avec environ 120 caméras, refait par Mick avec un iPhone, un matelas et une demi-heure à embêter ses voisins.</p>
+<div class="badge-slot" data-badge="l12"><span class="b-ico">🕶️</span> Badge : <strong>L&#x27;Élu·e</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>4DAnyone sur Wan 2.2 (les LoRA d'accélération divisent les steps par plus de deux)</li>
+<li>SAM 3D Body (Meta, intégré à ComfyUI) à la place de GVHMR/SMPL-X</li>
+<li>gsplat via <code>install_splatkit.bat</code></li>
+<li>Nerfstudio (optionnel), passe de nettoyage MiniMax H3</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l12-s0"><span>Installer les nœuds requis, puis déposer <code>install_splatkit.bat</code> à la racine de ComfyUI (à côté de <code>run_nvidia_gpu.bat</code>) et l'exécuter. Redémarrer.</span></label></li>
+<li><label><input type="checkbox" data-step="l12-s1"><span>Charger une vidéo de <strong>121 frames</strong> exactement.</span></label></li>
+<li><label><input type="checkbox" data-step="l12-s2"><span>Génération : régler <code>camera_preset</code> pour choisir le nombre de vues artificielles.</span></label></li>
+<li><label><input type="checkbox" data-step="l12-s3"><span><strong>4DAnyone Export Frameset</strong> : produit un dataset prêt pour l'entraînement (découpes, caméras, forme 3D grossière par frame).</span></label></li>
+<li><label><input type="checkbox" data-step="l12-s4"><span><strong>Train Sequence</strong> : un splat par frame, soit une séquence animée. Inspecter le résultat.</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>SAM 3D Body remplace GVHMR, bâti sur SMPL-X et donc interdit en usage commercial.</li>
+<li>Tu peux aussi exporter le dataset et l'entraîner dans Nerfstudio.</li>
+<li>Le workflow a été mis à jour le 15/09/2026 (téléchargement automatique des modèles).</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> Le lecteur de séquence peut afficher 1 ou 2 frames cassées alors que les splats sont bons : vérifie dans le turnaround avant de paniquer.</div>
+<label class="challenge"><input type="checkbox" data-challenge="l12"><span><strong>⚔️ Défi (+300 XP) :</strong> Filmer un ami qui saute (121 frames), puis faire tourner la caméra virtuelle autour de lui en plein vol.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/new-video-free-169253362" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article></section>
+<section class="world"><h2 class="world-title">Boss final</h2><article class="level" id="l13" data-level="l13">
+<header class="lvl-head">
+<a class="thumb" href="https://www.youtube.com/watch?v=xwTJ3E3NU7A" target="_blank" rel="noopener" aria-label="Voir la vidéo sur YouTube"><img loading="lazy" src="https://i.ytimg.com/vi/xwTJ3E3NU7A/mqdefault.jpg" alt="" onerror="this.style.display='none'"><span class="play">▶</span><span class="dur">12:39</span></a>
+<div class="lvl-meta">
+<div class="lvl-kicker">Niveau 13 · <span class="diff" title="Difficulté">★★★★★</span> · <span class="xp-tag">+400 XP de défi</span></div>
+<h3>👑 SHIBUWAKA : un anime avec un seul modèle</h3>
+<p class="vid">🎥 <a href="https://www.youtube.com/watch?v=xwTJ3E3NU7A" target="_blank" rel="noopener">This NEW METHOD just solved AI FILMMAKING [Free &amp; Local!]</a><br><span class="muted">28 oct. 2026 · 12:39 · ~84 k vues</span></p>
+<p class="pitch">La suite complète de workflows du court-métrage anime <strong>SHIBUWAKA</strong> : images, voix, musique et vidéo, le tout avec <strong>MiniMax H3</strong> (version référence). Chaque étape de production a son workflow, mais tous partagent la même disposition : les références entrent d'un côté (texte, image, audio ou vidéo), le prompt dit à quoi sert chacune, le résultat sort de l'autre côté.</p>
+<div class="badge-slot" data-badge="l13"><span class="b-ico">👑</span> Badge : <strong>Réalisateur·rice</strong> <span class="b-state">🔒</span></div>
+</div></header>
+<details class="lvl-body"><summary>Ouvrir la quête</summary>
+<div class="grid2"><section><h4>🎒 Ton arsenal</h4><ul class="stack">
+<li>MiniMax H3 <code>ref2va</code> int8 (19,5 Gio)</li>
+<li>Qwen3-VL 32B : NVFP4 (RTX 50) ou int8 (cartes plus anciennes)</li>
+<li>VAE vidéo + VAE audio, Turbo LoRA v4</li>
+<li>RealESRGAN ×2, LoRA orbite 360°, ControlNet Union 2.0</li>
+</ul></section><section><h4>🗺️ La quête</h4><ol class="quest">
+<li><label><input type="checkbox" data-step="l13-s0"><span><strong>Character Sheets</strong> : depuis un prompt, un croquis, un layout 3D ou des photos (l'équipe s'en est aussi servie pour les voitures).</span></label></li>
+<li><label><input type="checkbox" data-step="l13-s1"><span><strong>Turnarounds</strong> : une vidéo de rotation à partir d'une image ou d'une fiche.</span></label></li>
+<li><label><input type="checkbox" data-step="l13-s2"><span><strong>Édition d'images et de décors</strong> : lieux cohérents, images de début, de fin et de style.</span></label></li>
+<li><label><input type="checkbox" data-step="l13-s3"><span><strong>Voix</strong> : créer une réplique une fois, puis la réutiliser comme référence pour garder la même voix.</span></label></li>
+<li><label><input type="checkbox" data-step="l13-s4"><span><strong>Vidéo</strong> : suivre une réplique existante pour un timing exact, ou utiliser la voix comme référence pour de nouvelles phrases (avec un groupe pour références vidéo, flèches dessinées, storyboards et layouts Blender).</span></label></li>
+<li><label><input type="checkbox" data-step="l13-s5"><span><strong>Upscaling</strong> : re-rendre chaque plan en plus haute résolution avec le même prompt et les mêmes références. C'est ainsi que tout le film est passé en 4K.</span></label></li>
+</ol></section></div>
+<h4>💡 Astuces de Mick</h4><ul class="tips">
+<li>Une fois un workflow compris, les autres semblent familiers : même disposition partout.</li>
+<li>Le modèle 4 bits <code>w4a8</code> (11 Gio) est possible, mais environ 2× plus lent que l'int8 dans les tests de l'équipe.</li>
+<li>Les fichiers d'exemple du film sont réservés aux soutiens Patreon « Advanced » ; les workflows sont gratuits.</li>
+</ul>
+<div class="trap"><strong>🪤 Piège :</strong> Le text encoder <strong>NVFP4</strong> est fait pour les cartes Blackwell (RTX 50, RTX PRO). Sur une carte plus ancienne, prends la version int8 (25,3 Gio).</div>
+<label class="challenge"><input type="checkbox" data-challenge="l13"><span><strong>⚔️ Défi (+400 XP) :</strong> BOSS : un court anime de 30 s avec 1 personnage (fiche + turnaround), 1 décor, 3 plans, des voix cohérentes, upscalé en 4K.</span></label>
+<p class="src">Source : <a href="https://mickmumpitz.ai/posts/make-your-own-ai-173637693" target="_blank" rel="noopener">guide officiel sur mickmumpitz.ai</a></p>
+</details></article></section>
+
+ <h2 id="meteo">🌦️ La météo des modèles</h2>
+ <p class="muted">Ce que ces 13 vidéos racontent de l'évolution de l'IA vidéo locale en un an.</p>
+ <div class="panel"><ul class="timeline"><li><div class="t-when">Nov.–déc. 2025</div><div class="t-what"><strong>Qwen Image Edit + Wan 2.2</strong><br>Films plan par plan, upscaler génératif, marionnettes au bâton.</div></li><li><div class="t-when">Févr.–mars 2026</div><div class="t-what"><strong>Merge SkyReels V3 × Wan VACE</strong><br>AI Renderer 2.0 puis pipeline VFX complet : masques + ControlNets + références.</div></li><li><div class="t-when">Mai–juin 2026</div><div class="t-what"><strong>LTX 2.3 + Flux 2 Klein</strong><br>L'audio et le lip sync arrivent : Movie Builder modulaire, <em>Bear Minimum</em>.</div></li><li><div class="t-when">Juil. 2026</div><div class="t-what"><strong>Flux 2 Klein pour les datasets</strong><br>Character Creator 4.0 et entraînement de LoRA de casting.</div></li><li><div class="t-when">Août–oct. 2026</div><div class="t-what"><strong>MiniMax H3 partout</strong><br>Rendu clay → plan fini avec son, performance capture, nettoyage 4D, anime complet. Un seul modèle pour image, voix, musique et vidéo remplace les piles de ControlNet.</div></li><li><div class="t-when">En parallèle</div><div class="t-what"><strong>Gaussian Splats</strong><br>Mondes explorables (Matrix-3D) et humains en 4D (4DAnyone).</div></li></ul></div>
+
+ <h2 id="quiz">🧠 Le quiz du ciné-club</h2>
+ <p>Score : <span class="score" id="qscore">0</span> / 12 · 25 XP par bonne réponse au premier essai.</p>
+ <div class="q" data-qbox="0"><p class="q-t"><span class="q-n">Q1</span> Ta vidéo clay pour MiniMax H3 fait 150 frames. Combien seront rendues ?</p><div class="opts"><button type="button" class="opt" data-q="0" data-o="0">150</button><button type="button" class="opt" data-q="0" data-o="1">141</button><button type="button" class="opt" data-q="0" data-o="2">158</button><button type="button" class="opt" data-q="0" data-o="3">124</button></div><p class="expl" hidden>H3 travaille par paliers (90, 107, 124, 141, 158…) et coupe vers le bas : 150 → 141. Coupe ta passe à l'un de ces nombres.</p></div>
+<div class="q" data-qbox="1"><p class="q-t"><span class="q-n">Q2</span> Quelle valeur de frames_per_iteration est valide pour Wan ?</p><div class="opts"><button type="button" class="opt" data-q="1" data-o="0">80</button><button type="button" class="opt" data-q="1" data-o="1">81</button><button type="button" class="opt" data-q="1" data-o="2">82</button><button type="button" class="opt" data-q="1" data-o="3">84</button></div><p class="expl" hidden>Wan suit la formule 4n+1 : 81 = 4×20+1.</p></div>
+<div class="q" data-qbox="2"><p class="q-t"><span class="q-n">Q3</span> Tu veux que H3 garde un plan continu, sans coupe. Que mets-tu dans le prompt ?</p><div class="opts"><button type="button" class="opt" data-q="2" data-o="0">« no camera move, no cut »</button><button type="button" class="opt" data-q="2" data-o="1">« one continuous take »</button><button type="button" class="opt" data-q="2" data-o="2">Rien, c&#x27;est automatique</button><button type="button" class="opt" data-q="2" data-o="3">« static, static, static »</button></div><p class="expl" hidden>Règle d'or H3 : dis ce que tu veux, pas ce que tu ne veux pas. Les négations ne font rien.</p></div>
+<div class="q" data-qbox="3"><p class="q-t"><span class="q-n">Q4</span> Performance capture : tu portes un casque avec une caméra. Où dois-tu le mentionner ?</p><div class="opts"><button type="button" class="opt" data-q="3" data-o="0">Dans le prompt</button><button type="button" class="opt" data-q="3" data-o="1">Dans WHAT GETS REPLACED</button><button type="button" class="opt" data-q="3" data-o="2">Nulle part</button><button type="button" class="opt" data-q="3" data-o="3">Dans le prompt et dans WHAT GETS REPLACED</button></div><p class="expl" hidden>SAM doit le masquer, donc il va dans WHAT GETS REPLACED. Mais le nommer dans le prompt pousse H3 à le dessiner.</p></div>
+<div class="q" data-qbox="4"><p class="q-t"><span class="q-n">Q5</span> LTX 2.3 : l&#x27;image est parfaite mais la voix est fausse. Que changes-tu d&#x27;abord ?</p><div class="opts"><button type="button" class="opt" data-q="4" data-o="0">La seed de l&#x27;étape 1</button><button type="button" class="opt" data-q="4" data-o="1">La seed de l&#x27;étape 2</button><button type="button" class="opt" data-q="4" data-o="2">Le prompt</button><button type="button" class="opt" data-q="4" data-o="3">La référence voix</button></div><p class="expl" hidden>Le sampler a deux étapes : changer la seed de l'étape 2 corrige souvent la voix sans perdre le visuel.</p></div>
+<div class="q" data-qbox="5"><p class="q-t"><span class="q-n">Q6</span> Quelle résolution est valide pour le rendu LTX du pipeline Bear Minimum ?</p><div class="opts"><button type="button" class="opt" data-q="5" data-o="0">1400×760</button><button type="button" class="opt" data-q="5" data-o="1">1408×768</button><button type="button" class="opt" data-q="5" data-o="2">1920×1080</button><button type="button" class="opt" data-q="5" data-o="3">1366×768</button></div><p class="expl" hidden>Elle doit être divisible par 64 : 1408 = 22×64 et 768 = 12×64. (1080 ne l'est pas, d'où le 1920×1088.)</p></div>
+<div class="q" data-qbox="6"><p class="q-t"><span class="q-n">Q7</span> Pourquoi Mick a-t-il remplacé GVHMR dans son portage de 4DAnyone ?</p><div class="opts"><button type="button" class="opt" data-q="6" data-o="0">Trop lent</button><button type="button" class="opt" data-q="6" data-o="1">Il repose sur SMPL-X, interdit en usage commercial</button><button type="button" class="opt" data-q="6" data-o="2">Incompatible avec Wan 2.2</button><button type="button" class="opt" data-q="6" data-o="3">Il ne gère pas les mains</button></div><p class="expl" hidden>SAM 3D Body (Meta, intégré à ComfyUI) fournit le même type de squelette sous une licence utilisable.</p></div>
+<div class="q" data-qbox="7"><p class="q-t"><span class="q-n">Q8</span> Tu as entraîné une LoRA sur Flux 2 Klein 9B. Peux-tu vendre ce que tu produis avec ?</p><div class="opts"><button type="button" class="opt" data-q="7" data-o="0">Oui, le fichier est à moi</button><button type="button" class="opt" data-q="7" data-o="1">Non : la LoRA hérite de la licence non commerciale du modèle</button><button type="button" class="opt" data-q="7" data-o="2">Oui, si je la renomme</button><button type="button" class="opt" data-q="7" data-o="3">Seulement en dehors de l&#x27;UE</button></div><p class="expl" hidden>Une LoRA hérite de la licence de son modèle de base. Pour du commercial : CCC 3.5, la version Qwen, ou bientôt Krea 2.</p></div>
+<div class="q" data-qbox="8"><p class="q-t"><span class="q-n">Q9</span> Bear Minimum : ton MP3 de dialogue est plus court que le plan. Que se passe-t-il ?</p><div class="opts"><button type="button" class="opt" data-q="8" data-o="0">Du silence à la fin</button><button type="button" class="opt" data-q="8" data-o="1">Le modèle invente de l&#x27;audio après la voix</button><button type="button" class="opt" data-q="8" data-o="2">Une erreur bloque le rendu</button><button type="button" class="opt" data-q="8" data-o="3">La voix tourne en boucle</button></div><p class="expl" hidden>L'audio doit durer au moins autant que le plan, et contenir le dialogue seul (pas de musique).</p></div>
+<div class="q" data-qbox="9"><p class="q-t"><span class="q-n">Q10</span> Upscaler : que fait une valeur de Creativity élevée ?</p><div class="opts"><button type="button" class="opt" data-q="9" data-o="0">Plus fidèle à la source</button><button type="button" class="opt" data-q="9" data-o="1">Plus de détails inventés, avec un risque de bruit</button><button type="button" class="opt" data-q="9" data-o="2">Plus rapide</button><button type="button" class="opt" data-q="9" data-o="3">Change la résolution</button></div><p class="expl" hidden>Creativity modifie le shift du scheduler : bas = fidèle, haut = génératif (avec des artefacts possibles).</p></div>
+<div class="q" data-qbox="10"><p class="q-t"><span class="q-n">Q11</span> World Generation : comment obtenir un résultat net à partir de la sortie 720p ?</p><div class="opts"><button type="button" class="opt" data-q="10" data-o="0">SeedVR2 sur la sortie 720p</button><button type="button" class="opt" data-q="10" data-o="1">Reprojeter le panorama 8K d&#x27;origine</button><button type="button" class="opt" data-q="10" data-o="2">Doubler les steps</button><button type="button" class="opt" data-q="10" data-o="3">Rendre directement en 8K</button></div><p class="expl" hidden>Reprojeter le panorama 8K est plus net et plus rapide que SeedVR2, selon l'équipe.</p></div>
+<div class="q" data-qbox="11"><p class="q-t"><span class="q-n">Q12</span> Combien de frames doit faire ta vidéo pour le workflow 4D ?</p><div class="opts"><button type="button" class="opt" data-q="11" data-o="0">81</button><button type="button" class="opt" data-q="11" data-o="1">121</button><button type="button" class="opt" data-q="11" data-o="2">141</button><button type="button" class="opt" data-q="11" data-o="3">362</button></div><p class="expl" hidden>Le workflow 4DAnyone attend exactement 121 frames.</p></div>
+
+ <h2 id="badges">🏅 Ta vitrine de badges</h2>
+ <div class="shelf"><div class="shelf-b" data-shelf="l0" title="Campeur·euse"><span>🏕️</span><small>Campeur·euse</small></div><div class="shelf-b" data-shelf="l1" title="Œil de lynx"><span>🔍</span><small>Œil de lynx</small></div><div class="shelf-b" data-shelf="l2" title="Cloneur·euse"><span>🧬</span><small>Cloneur·euse</small></div><div class="shelf-b" data-shelf="l3" title="Story-boardeur·euse"><span>🎬</span><small>Story-boardeur·euse</small></div><div class="shelf-b" data-shelf="l4" title="Monteur·euse"><span>🎞️</span><small>Monteur·euse</small></div><div class="shelf-b" data-shelf="l5" title="Marionnettiste"><span>🪄</span><small>Marionnettiste</small></div><div class="shelf-b" data-shelf="l6" title="Mécano du rendu"><span>⚙️</span><small>Mécano du rendu</small></div><div class="shelf-b" data-shelf="l7" title="Gérant·e de motel"><span>🐻</span><small>Gérant·e de motel</small></div><div class="shelf-b" data-shelf="l8" title="Sculpteur·rice"><span>🗿</span><small>Sculpteur·rice</small></div><div class="shelf-b" data-shelf="l9" title="Artificier·ère"><span>💥</span><small>Artificier·ère</small></div><div class="shelf-b" data-shelf="l10" title="Cochon d&#x27;or"><span>🐷</span><small>Cochon d&#x27;or</small></div><div class="shelf-b" data-shelf="l11" title="Cartographe"><span>🗺️</span><small>Cartographe</small></div><div class="shelf-b" data-shelf="l12" title="L&#x27;Élu·e"><span>🕶️</span><small>L&#x27;Élu·e</small></div><div class="shelf-b" data-shelf="l13" title="Réalisateur·rice"><span>👑</span><small>Réalisateur·rice</small></div></div>
+
+ <h2 id="glossaire">📖 Glossaire express</h2>
+ <dl class="glossary"><div class="g"><dt>ComfyUI</dt><dd>Interface en nœuds pour faire tourner des modèles d'IA en local. Tout le travail de Mick s'y passe.</dd></div><div class="g"><dt>Workflow (.json)</dt><dd>Un graphe de nœuds sauvegardé. On le glisse sur le canvas pour le charger.</dd></div><div class="g"><dt>Custom nodes</dt><dd>Extensions de ComfyUI. Le Manager installe celles qui manquent.</dd></div><div class="g"><dt>LoRA</dt><dd>Petit fichier qui spécialise un modèle (un style, un personnage, plus de vitesse…).</dd></div><div class="g"><dt>VAE</dt><dd>Encode et décode les images (ou le son) vers l'espace latent. H3 en utilise deux : image et son.</dd></div><div class="g"><dt>Text encoder</dt><dd>Modèle qui comprend ton prompt (Gemma, Qwen3-VL…). Souvent aussi lourd que le modèle principal.</dd></div><div class="g"><dt>ControlNet</dt><dd>Guide la génération avec une structure : depth, canny, pose, tracking.</dd></div><div class="g"><dt>Seed</dt><dd>Le nombre qui fixe le hasard. Même seed + mêmes réglages = même résultat.</dd></div><div class="g"><dt>Steps</dt><dd>Nombre d'étapes de débruitage. Les LoRA turbo ou lightning le réduisent à 4 ou 8.</dd></div><div class="g"><dt>fp8 / int8 / NVFP4 / GGUF</dt><dd>Formats compressés des modèles : moins de VRAM, parfois un peu moins de qualité. NVFP4 est réservé aux RTX 50.</dd></div><div class="g"><dt>VACE</dt><dd>Le module de Wan pour l'inpainting et le guidage par ControlNet.</dd></div><div class="g"><dt>Masque</dt><dd>Image noir et blanc qui dit quelle zone garder ou régénérer. La convention change selon le workflow.</dd></div><div class="g"><dt>Clay / playblast</dt><dd>Rendu 3D gris, sans texture, qui sert uniquement de mise en scène.</dd></div><div class="g"><dt>Look plate</dt><dd>Image fixe qui donne la matière, la couleur et la lumière d'un rendu H3.</dd></div><div class="g"><dt>Gaussian Splat</dt><dd>Représentation 3D en nuage de « taches » colorées, entraînée à partir de photos ou de vues générées.</dd></div><div class="g"><dt>COLMAP</dt><dd>Format standard de dataset de photos + caméras pour entraîner des splats.</dd></div><div class="g"><dt>Équirectangulaire / 360°</dt><dd>Image panoramique complète, dépliée en rectangle 2:1.</dd></div><div class="g"><dt>Lip sync</dt><dd>Synchronisation des lèvres d'un personnage sur un fichier audio.</dd></div><div class="g"><dt>RunPod</dt><dd>Location de GPU dans le cloud. Mick fournit un template prêt à l'emploi pour presque chaque workflow.</dd></div><div class="g"><dt>SageAttention</dt><dd>Optimisation qui accélère Wan jusqu'à 2×. Mick fournit un installeur pour Windows.</dd></div></dl>
+
+ <h2 id="sources">📚 Sources</h2>
+ <div class="panel">
+  <p>Les 13 dernières vidéos de la <a href="https://www.youtube.com/@mickmumpitz" target="_blank" rel="noopener">chaîne YouTube @mickmumpitz</a> (liste relevée le 11 novembre 2026). Le contenu de ce guide vient des <strong>posts compagnons publics</strong> que Mickmumpitz publie avec chaque vidéo sur <a href="https://mickmumpitz.ai" target="_blank" rel="noopener">mickmumpitz.ai</a> (workflows, guides d'installation, réglages), reformulés et organisés en progression. Les transcriptions des vidéos n'ont pas pu être récupérées : regarde les vidéos pour les démonstrations détaillées.</p>
+  <div class="tablewrap"><table><thead><tr><th>Date</th><th>Vidéo</th><th>Durée</th><th>Niveau</th><th>Guide</th></tr></thead><tbody><tr><td>28 oct. 2026</td><td><a href="https://www.youtube.com/watch?v=xwTJ3E3NU7A" target="_blank" rel="noopener">This NEW METHOD just solved AI FILMMAKING [Free &amp; Local!]</a></td><td>12:39</td><td><a href="#l13">Niv. 13</a></td><td><a href="https://mickmumpitz.ai/posts/make-your-own-ai-173637693" target="_blank" rel="noopener">guide</a></td></tr><tr><td>7 oct. 2026</td><td><a href="https://www.youtube.com/watch?v=2MzCkYrvDaI" target="_blank" rel="noopener">I turned myself into a pig with AI [Free &amp; Local VFX Tutorial]</a></td><td>11:30</td><td><a href="#l10">Niv. 10</a></td><td><a href="https://mickmumpitz.ai/posts/new-video-free-171702311" target="_blank" rel="noopener">guide</a></td></tr><tr><td>11 sept. 2026</td><td><a href="https://www.youtube.com/watch?v=nYisoS5wPYQ" target="_blank" rel="noopener">4D video is here, and it runs on your own computer</a></td><td>8:21</td><td><a href="#l12">Niv. 12</a></td><td><a href="https://mickmumpitz.ai/posts/new-video-free-169253362" target="_blank" rel="noopener">guide</a></td></tr><tr><td>25 août 2026</td><td><a href="https://www.youtube.com/watch?v=eJuYBNrD8HI" target="_blank" rel="noopener">We Open Sourced World Generation</a></td><td>17:55</td><td><a href="#l11">Niv. 11</a></td><td><a href="https://mickmumpitz.ai/posts/new-video-free-167647096" target="_blank" rel="noopener">guide</a></td></tr><tr><td>12 août 2026</td><td><a href="https://www.youtube.com/watch?v=Q2oVBVQNQ_U" target="_blank" rel="noopener">This new AI Render Engine is amazing!</a></td><td>14:09</td><td><a href="#l8">Niv. 8</a></td><td><a href="https://mickmumpitz.ai/posts/new-video-free-166463119" target="_blank" rel="noopener">guide</a></td></tr><tr><td>17 juil. 2026</td><td><a href="https://www.youtube.com/watch?v=ghFYDG0DF1w" target="_blank" rel="noopener">Create HYPERREALISTIC AI Characters That INTERACT | FREE &amp; LOCAL</a></td><td>34:28</td><td><a href="#l2">Niv. 2</a></td><td><a href="https://mickmumpitz.ai/posts/new-video-free-4-164075060" target="_blank" rel="noopener">guide</a></td></tr><tr><td>19 juin 2026</td><td><a href="https://www.youtube.com/watch?v=7J7hi-Hxpac" target="_blank" rel="noopener">We Built a FREE AI Render Engine for CG &amp; Facial Animation (ComfyUI + Blender)</a></td><td>23:00</td><td><a href="#l7">Niv. 7</a></td><td><a href="https://mickmumpitz.ai/posts/new-video-free-161509029" target="_blank" rel="noopener">guide</a></td></tr><tr><td>4 mai 2026</td><td><a href="https://www.youtube.com/watch?v=0mT4p86ZxGQ" target="_blank" rel="noopener">Generate ENTIRE AI MOVIES with this NEW METHOD! [FREE &amp; LOCAL]</a></td><td>10:43</td><td><a href="#l4">Niv. 4</a></td><td><a href="https://mickmumpitz.ai/posts/guide-ltx-2-3-157329723" target="_blank" rel="noopener">guide</a></td></tr><tr><td>30 mars 2026</td><td><a href="https://www.youtube.com/watch?v=_n0ir5V5tX4" target="_blank" rel="noopener">I Built a FREE VFX Pipeline with Local AI [2026 Masterclass]</a></td><td>19:12</td><td><a href="#l9">Niv. 9</a></td><td><a href="https://mickmumpitz.ai/posts/free-guide-epic-154092216" target="_blank" rel="noopener">guide</a></td></tr><tr><td>25 févr. 2026</td><td><a href="https://www.youtube.com/watch?v=0WkixvqnPXw" target="_blank" rel="noopener">We Built an AI Render Engine for FREE</a></td><td>15:30</td><td><a href="#l6">Niv. 6</a></td><td><a href="https://mickmumpitz.ai/posts/ai-renderer-2-0-153434545" target="_blank" rel="noopener">guide</a></td></tr><tr><td>17 déc. 2025</td><td><a href="https://www.youtube.com/watch?v=pUb58eAZ3pc" target="_blank" rel="noopener">AI is finally controllable! …with a stick [FREE ComfyUI Workflow + Tutorial]</a></td><td>10:40</td><td><a href="#l5">Niv. 5</a></td><td><a href="https://mickmumpitz.ai/posts/ai-video-with-154392669" target="_blank" rel="noopener">guide</a></td></tr><tr><td>25 nov. 2025</td><td><a href="https://www.youtube.com/watch?v=NpNagmQI4yg" target="_blank" rel="noopener">STOP Paying for AI Upscaling - This FREE Tool is BETTER [ComfyUI Workflow + Tutorial]</a></td><td>9:16</td><td><a href="#l1">Niv. 1</a></td><td><a href="https://mickmumpitz.ai/posts/stop-paying-for-154393504" target="_blank" rel="noopener">guide</a></td></tr><tr><td>1 nov. 2025</td><td><a href="https://www.youtube.com/watch?v=YpuSE9hcal8" target="_blank" rel="noopener">Build your own AI MOVIES shot by shot - FREE &amp; LOCAL! [AI Filmmaking in ComfyUI - 2025]</a></td><td>17:00</td><td><a href="#l3">Niv. 3</a></td><td><a href="https://mickmumpitz.ai/posts/new-video-build-142571395" target="_blank" rel="noopener">guide</a></td></tr></tbody></table></div>
+ </div>
+ <p style="text-align:center;margin-top:24px"><button class="reset" type="button" id="reset">↺ Réinitialiser ma progression</button></p>
+</main>
+<footer>Guide non officiel, fait par un fan. Tous les workflows, vidéos et noms appartiennent à Mickmumpitz et à leurs auteurs respectifs.</footer>
+<div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
+<script>
+const D = {"levels": [{"id": "l0", "steps": 5, "xp": 50, "badge": ["🏕️", "Campeur·euse"], "title": "Le Camp de base"}, {"id": "l1", "steps": 5, "xp": 100, "badge": ["🔍", "Œil de lynx"], "title": "Le Zoom qui invente"}, {"id": "l2", "steps": 6, "xp": 150, "badge": ["🧬", "Cloneur·euse"], "title": "L'Usine à sosies"}, {"id": "l3", "steps": 5, "xp": 150, "badge": ["🎬", "Story-boardeur·euse"], "title": "Le Clap plan par plan"}, {"id": "l4", "steps": 7, "xp": 200, "badge": ["🎞️", "Monteur·euse"], "title": "Le Plateau modulaire"}, {"id": "l5", "steps": 6, "xp": 200, "badge": ["🪄", "Marionnettiste"], "title": "Le Marionnettiste"}, {"id": "l6", "steps": 5, "xp": 200, "badge": ["⚙️", "Mécano du rendu"], "title": "Le Moteur de rendu 2.0"}, {"id": "l7", "steps": 7, "xp": 250, "badge": ["🐻", "Gérant·e de motel"], "title": "Bear Minimum"}, {"id": "l8", "steps": 6, "xp": 200, "badge": ["🗿", "Sculpteur·rice"], "title": "La Pâte qui prend vie"}, {"id": "l9", "steps": 6, "xp": 250, "badge": ["💥", "Artificier·ère"], "title": "Le Studio VFX de poche"}, {"id": "l10", "steps": 6, "xp": 250, "badge": ["🐷", "Cochon d'or"], "title": "Groin groin"}, {"id": "l11", "steps": 5, "xp": 300, "badge": ["🗺️", "Cartographe"], "title": "Le Cartographe"}, {"id": "l12", "steps": 5, "xp": 300, "badge": ["🕶️", "L'Élu·e"], "title": "Bullet time maison"}, {"id": "l13", "steps": 6, "xp": 400, "badge": ["👑", "Réalisateur·rice"], "title": "SHIBUWAKA : un anime avec un seul modèle"}], "quiz": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], "ranks": [[0.0, "🎟️", "Stagiaire du plateau"], [0.1, "🎥", "Assistant·e caméra"], [0.3, "💡", "Chef·fe opérateur·rice"], [0.55, "✨", "Superviseur·e VFX"], [0.8, "🎬", "Réalisateur·rice"], [1.0, "🏆", "Mickmumpitz d'honneur"]], "maxXp": 4100};
+const SCROLLS = {"l8": "<Video 1> is an untextured grey clay render, it defines layout, staging and animation.\nFollow the composition, subject positions and timing of <Video 1> exactly, frame by frame.\nKeep the geometry, layout and animation unchanged and give them material, colour and\nlighting from the description below.\n[Décris la scène : qui, tenues, environnement, heure, lumière, look film]\nTimeline:\n[0s-6.5s] [ce qui se passe, jusqu'à la fin du clip]\nThe camera move comes entirely from <Video 1>. One continuous take.\nAudio: [les sons voulus, présents sur tout le clip]\nRender every frame fully. No on-screen text."};
+const KEY = "mick-quest-v1";
+let S;
+try { S = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { S = {}; }
+S.steps = S.steps || {}; S.ch = S.ch || {}; S.quiz = S.quiz || {};
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2600);
+}
+function levelState(l) {
+  let n = 0; for (let i = 0; i < l.steps; i++) if (S.steps[l.id + "-s" + i]) n++;
+  return { n, done: n === l.steps && !!S.ch[l.id] };
+}
+function computeXp() {
+  let xp = 0;
+  for (const k in S.steps) if (S.steps[k]) xp += 10;
+  for (const l of D.levels) if (S.ch[l.id]) xp += l.xp;
+  let good = 0;
+  for (const k in S.quiz) if (S.quiz[k].first === D.quiz[k]) { xp += 25; good++; }
+  return { xp, good };
+}
+function render(prevDone) {
+  const { xp, good } = computeXp();
+  $("#xp").textContent = xp;
+  $("#barfill").style.width = Math.min(100, xp / D.maxXp * 100) + "%";
+  const ratio = xp / D.maxXp; let r = D.ranks[0];
+  for (const x of D.ranks) if (ratio >= x[0] - 1e-9) r = x;
+  $("#rank").textContent = r[1] + " " + r[2];
+  $("#qscore").textContent = good;
+  for (const l of D.levels) {
+    const st = levelState(l);
+    const card = document.getElementById(l.id);
+    card.classList.toggle("complete", st.done);
+    $(".b-state", card).textContent = st.done ? "✅" : "🔒";
+    const node = $(`[data-node="${l.id}"]`);
+    node.classList.toggle("done", st.done);
+    node.classList.toggle("part", !st.done && (st.n > 0 || !!S.ch[l.id]));
+    $(`[data-shelf="${l.id}"]`).classList.toggle("on", st.done);
+    if (prevDone && !prevDone[l.id] && st.done) toast(`🏅 Badge débloqué : ${l.badge[0]} ${l.badge[1]} !`);
+  }
+  return r;
+}
+const doneMap = () => Object.fromEntries(D.levels.map(l => [l.id, levelState(l).done]));
+
+$$("[data-step]").forEach(cb => {
+  cb.checked = !!S.steps[cb.dataset.step];
+  cb.addEventListener("change", () => {
+    const before = doneMap(), rb = render().join();
+    S.steps[cb.dataset.step] = cb.checked; save();
+    const ra = render(before);
+    if (cb.checked && ra.join() !== rb) toast(`⬆️ Nouveau rang : ${ra[1]} ${ra[2]}`);
+  });
+});
+$$("[data-challenge]").forEach(cb => {
+  cb.checked = !!S.ch[cb.dataset.challenge];
+  cb.addEventListener("change", () => {
+    const before = doneMap(); S.ch[cb.dataset.challenge] = cb.checked; save();
+    render(before);
+    const lv = D.levels.find(l => l.id === cb.dataset.challenge);
+    if (cb.checked && !levelState(lv).done) toast(`⚔️ Défi relevé : +${lv.xp} XP. Coche toutes les étapes pour le badge.`);
+  });
+});
+
+function paintQuiz(qi) {
+  const st = S.quiz[qi]; if (!st) return;
+  const box = $(`[data-qbox="${qi}"]`);
+  $$(".opt", box).forEach(b => {
+    const o = +b.dataset.o;
+    b.classList.toggle("good", o === D.quiz[qi] && st.solved);
+    b.classList.toggle("bad", st.tried.includes(o) && o !== D.quiz[qi]);
+    if (st.solved) b.disabled = true;
+  });
+  $(".expl", box).hidden = !st.solved;
+}
+$$(".opt").forEach(b => b.addEventListener("click", () => {
+  const qi = b.dataset.q, o = +b.dataset.o;
+  const st = S.quiz[qi] || (S.quiz[qi] = { first: o, tried: [], solved: false });
+  if (st.solved) return;
+  st.tried.push(o);
+  if (o === D.quiz[qi]) { st.solved = true; toast(st.first === o ? "✅ Bonne réponse : +25 XP" : "✅ Trouvé ! (pas d'XP au 2e essai)"); }
+  else toast("❌ Raté, réessaie !");
+  save(); paintQuiz(qi); render();
+}));
+Object.keys(S.quiz).forEach(paintQuiz);
+
+$$("[data-copy]").forEach(b => b.addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(SCROLLS[b.dataset.copy]); toast("📋 Prompt copié"); }
+  catch (e) { toast("Copie impossible : sélectionne le texte à la main"); }
+}));
+$("#reset").addEventListener("click", () => {
+  if (confirm("Effacer toute ta progression ?")) { localStorage.removeItem(KEY); location.reload(); }
+});
+render();
+</script>
+</body>
+</html>
