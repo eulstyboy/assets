@@ -15,22 +15,23 @@ Mickmumpitz (Mick Mahler) est un artiste VFX allemand qui publie, avec chaque vi
 
 ## 🗺️ La carte
 
-| Niv. | Monde | Quête | Difficulté | XP de défi | Badge |
-|---|---|---|---|---|---|
-| 0 | Camp de base | [🏕️ Le Camp de base](#niveau-0) | ★☆☆☆☆ | +50 | 🏕️ Campeur·euse |
-| 1 | Monde 1 · La Salle de post-prod | [🔍 Le Zoom qui invente](#niveau-1) | ★☆☆☆☆ | +100 | 🔍 Œil de lynx |
-| 2 | Monde 2 · La Fabrique de personnages | [🧬 L'Usine à sosies](#niveau-2) | ★★☆☆☆ | +150 | 🧬 Cloneur·euse |
-| 3 | Monde 2 · La Fabrique de personnages | [🎬 Le Clap plan par plan](#niveau-3) | ★★☆☆☆ | +150 | 🎬 Story-boardeur·euse |
-| 4 | Monde 3 · Le Plateau de tournage | [🎞️ Le Plateau modulaire](#niveau-4) | ★★★☆☆ | +200 | 🎞️ Monteur·euse |
-| 5 | Monde 3 · Le Plateau de tournage | [🪄 Le Marionnettiste](#niveau-5) | ★★★☆☆ | +200 | 🪄 Marionnettiste |
-| 6 | Monde 4 · La Salle des machines (rendu 3D → IA) | [⚙️ Le Moteur de rendu 2.0](#niveau-6) | ★★★☆☆ | +200 | ⚙️ Mécano du rendu |
-| 7 | Monde 4 · La Salle des machines (rendu 3D → IA) | [🐻 Bear Minimum](#niveau-7) | ★★★★☆ | +250 | 🐻 Gérant·e de motel |
-| 8 | Monde 4 · La Salle des machines (rendu 3D → IA) | [🗿 La Pâte qui prend vie](#niveau-8) | ★★★☆☆ | +200 | 🗿 Sculpteur·rice |
-| 9 | Monde 5 · Le Studio VFX | [💥 Le Studio VFX de poche](#niveau-9) | ★★★★☆ | +250 | 💥 Artificier·ère |
-| 10 | Monde 5 · Le Studio VFX | [🐷 Groin groin](#niveau-10) | ★★★★☆ | +250 | 🐷 Cochon d'or |
-| 11 | Monde 6 · Au-delà de l'écran (3D & 4D) | [🗺️ Le Cartographe](#niveau-11) | ★★★★★ | +300 | 🗺️ Cartographe |
-| 12 | Monde 6 · Au-delà de l'écran (3D & 4D) | [🕶️ Bullet time maison](#niveau-12) | ★★★★★ | +300 | 🕶️ L'Élu·e |
-| 13 | Boss final | [👑 SHIBUWAKA : un anime avec un seul modèle](#niveau-13) | ★★★★★ | +400 | 👑 Réalisateur·rice |
+| Niv. | Monde | Quête | Difficulté | XP de défi | Badge | GPU RunPod |
+|---|---|---|---|---|---|---|
+| 0 | Camp de base | [🏕️ Le Camp de base](#l0) | ★☆☆☆☆ | +50 | 🏕️ Campeur·euse | — |
+| 0+ | Camp de base | [🚀 Le Hangar à GPU (RunPod)](#lr) | ★☆☆☆☆ | +75 | ☁️ Pilote de nuage | — |
+| 1 | Monde 1 · La Salle de post-prod | [🔍 Le Zoom qui invente](#l1) | ★☆☆☆☆ | +100 | 🔍 Œil de lynx | RTX 4090 (24 Go) ([☁️](https://console.runpod.io/deploy?template=g6f7qbratd&ref=mgaruyku)) |
+| 2 | Monde 2 · La Fabrique de personnages | [🧬 L'Usine à sosies](#l2) | ★★☆☆☆ | +150 | 🧬 Cloneur·euse | RTX 4090 ou RTX 5090 ([☁️](https://console.runpod.io/deploy?template=o1faf9xnyz&ref=mgaruyku)) |
+| 3 | Monde 2 · La Fabrique de personnages | [🎬 Le Clap plan par plan](#l3) | ★★☆☆☆ | +150 | 🎬 Story-boardeur·euse | RTX 4090 ou RTX 5090 |
+| 4 | Monde 3 · Le Plateau de tournage | [🎞️ Le Plateau modulaire](#l4) | ★★★☆☆ | +200 | 🎞️ Monteur·euse | RTX 5090 (32 Go) ou L40S (48 Go) ([☁️](https://console.runpod.io/deploy?template=x4px1sy09w&ref=mgaruyku)) |
+| 5 | Monde 3 · Le Plateau de tournage | [🪄 Le Marionnettiste](#l5) | ★★★☆☆ | +200 | 🪄 Marionnettiste | RTX 4090 ou RTX 5090 ([☁️](https://console.runpod.io/deploy?template=hok2ttp6qw&ref=mgaruyku)) |
+| 6 | Monde 4 · La Salle des machines (rendu 3D → IA) | [⚙️ Le Moteur de rendu 2.0](#l6) | ★★★☆☆ | +200 | ⚙️ Mécano du rendu | RTX 4090 (GGUF) ou L40S ([☁️](https://console.runpod.io/deploy?template=edjge1eypm&ref=mgaruyku)) |
+| 7 | Monde 4 · La Salle des machines (rendu 3D → IA) | [🐻 Bear Minimum](#l7) | ★★★★☆ | +250 | 🐻 Gérant·e de motel | RTX 5090 ou L40S ([☁️](https://console.runpod.io/deploy?template=w6zqdu6zzz&ref=mgaruyku)) |
+| 8 | Monde 4 · La Salle des machines (rendu 3D → IA) | [🗿 La Pâte qui prend vie](#l8) | ★★★☆☆ | +200 | 🗿 Sculpteur·rice | L40S (48 Go) ; RTX PRO 6000 pour le NVFP4 |
+| 9 | Monde 5 · Le Studio VFX | [💥 Le Studio VFX de poche](#l9) | ★★★★☆ | +250 | 💥 Artificier·ère | RTX 4090/5090 en FP8, L40S pour être large ([☁️](https://console.runpod.io/deploy?template=hb55l4frnh&ref=mgaruyku)) |
+| 10 | Monde 5 · Le Studio VFX | [🐷 Groin groin](#l10) | ★★★★☆ | +250 | 🐷 Cochon d'or | 24 Go et plus avec l'encodeur sur CPU ; 48 Go conseillés |
+| 11 | Monde 6 · Au-delà de l'écran (3D & 4D) | [🗺️ Le Cartographe](#l11) | ★★★★★ | +300 | 🗺️ Cartographe | L40S (48 Go) |
+| 12 | Monde 6 · Au-delà de l'écran (3D & 4D) | [🕶️ Bullet time maison](#l12) | ★★★★★ | +300 | 🕶️ L'Élu·e | L40S (48 Go) |
+| 13 | Boss final | [👑 SHIBUWAKA : un anime avec un seul modèle](#l13) | ★★★★★ | +400 | 👑 Réalisateur·rice | RTX PRO 6000 (96 Go) ou H100 |
 
 ## 📜 Les Lois de Mick
 
@@ -49,25 +50,26 @@ Les principes qui reviennent d'une vidéo à l'autre.
 
 | Ta situation | Va au |
 |---|---|
-| J'ai une vieille vidéo floue ou compressée | [🔍 Niveau 1](#niveau-1) |
-| Je veux un personnage récurrent (et je peux entraîner une LoRA) | [🧬 Niveau 2](#niveau-2) |
-| J'écris une histoire, sans 3D, en images fixes | [🎬 Niveau 3](#niveau-3) |
-| Je veux des plans animés qui parlent, sans 3D | [🎞️ Niveau 4](#niveau-4) |
-| J'ai des jouets, des découpages ou une prévis simple | [🪄 Niveau 5](#niveau-5) |
-| J'ai une scène Blender et je veux un plan long, stylisé, sans dialogue | [⚙️ Niveau 6](#niveau-6) |
-| J'ai une scène Blender avec des personnages qui parlent | [🐻 Niveau 7](#niveau-7) |
-| J'ai un playblast clay et je veux un plan fini avec le son | [🗿 Niveau 8](#niveau-8) |
-| J'ai filmé un vrai plan et je veux ajouter ou remplacer des éléments | [💥 Niveau 9](#niveau-9) |
-| Je veux me transformer en créature en gardant mon jeu | [🐷 Niveau 10](#niveau-10) |
-| Je veux un décor 3D explorable à partir d'une image | [🗺️ Niveau 11](#niveau-11) |
-| Je veux filmer une personne en 4D (bullet time) | [🕶️ Niveau 12](#niveau-12) |
-| Je veux produire un anime complet, voix et musique comprises | [👑 Niveau 13](#niveau-13) |
+| Je n'ai pas de carte NVIDIA (AMD, portable…) | [🚀 Niveau 0+](#lr) |
+| J'ai une vieille vidéo floue ou compressée | [🔍 Niveau 1](#l1) |
+| Je veux un personnage récurrent (et je peux entraîner une LoRA) | [🧬 Niveau 2](#l2) |
+| J'écris une histoire, sans 3D, en images fixes | [🎬 Niveau 3](#l3) |
+| Je veux des plans animés qui parlent, sans 3D | [🎞️ Niveau 4](#l4) |
+| J'ai des jouets, des découpages ou une prévis simple | [🪄 Niveau 5](#l5) |
+| J'ai une scène Blender et je veux un plan long, stylisé, sans dialogue | [⚙️ Niveau 6](#l6) |
+| J'ai une scène Blender avec des personnages qui parlent | [🐻 Niveau 7](#l7) |
+| J'ai un playblast clay et je veux un plan fini avec le son | [🗿 Niveau 8](#l8) |
+| J'ai filmé un vrai plan et je veux ajouter ou remplacer des éléments | [💥 Niveau 9](#l9) |
+| Je veux me transformer en créature en gardant mon jeu | [🐷 Niveau 10](#l10) |
+| Je veux un décor 3D explorable à partir d'une image | [🗺️ Niveau 11](#l11) |
+| Je veux filmer une personne en 4D (bullet time) | [🕶️ Niveau 12](#l12) |
+| Je veux produire un anime complet, voix et musique comprises | [👑 Niveau 13](#l13) |
 
 ---
 
 ## Camp de base
 
-<a id="niveau-0"></a>
+<a id="l0"></a>
 
 ### Niveau 0 · 🏕️ Le Camp de base
 
@@ -101,17 +103,57 @@ Avant toute quête, installe ton camp : ComfyUI à jour, le Manager, et le « ri
 
 <sub>Source : [guide officiel sur mickmumpitz.ai](https://mickmumpitz.ai/posts/comfyui-getting-153738117)</sub>
 
+<a id="lr"></a>
+
+### Niveau 0+ · 🚀 Le Hangar à GPU (RunPod)
+
+**Difficulté** ★☆☆☆☆ · **Défi** +75 XP · **Badge** ☁️ Pilote de nuage
+
+Pas de carte NVIDIA (AMD, portable, petite carte) ? Loues-en une **à la seconde** sur RunPod : ComfyUI tourne sur leur machine et tu l'utilises dans ton navigateur. Mick fournit des templates prêts à l'emploi (nœuds déjà installés) pour 7 niveaux : cherche le lien ☁️ sur les cartes.
+
+**🎒 Ton arsenal**
+
+- Un compte RunPod et environ 10 $ de crédit
+- Le template du niveau (lien ☁️ sur la carte)
+- Optionnel mais conseillé : un *network volume* de 100 à 150 Go (environ 0,07 $ par Go et par mois)
+- Un compte Hugging Face pour les modèles « gated » (Flux 2 Klein)
+
+**🗺️ La quête**
+
+- [ ] Créer un compte sur runpod.io et ajouter du crédit (10 $ suffisent pour démarrer).
+- [ ] Optionnel : créer un **network volume** dans le datacenter où tu loueras ton GPU. Modèles, nœuds et rendus survivent alors à la suppression du pod.
+- [ ] Ouvrir le lien ☁️ du niveau, choisir le GPU conseillé (Community Cloud = moins cher) et déployer.
+- [ ] Attendre la fin de l'installation (le premier démarrage peut prendre 20 à 30 minutes), puis **Connect** → ouvrir ComfyUI (port 8188).
+- [ ] Télécharger le `.json` du workflow sur le post de Mick (la version « runpod » quand il y en a une) et le glisser sur le canvas.
+- [ ] Lancer, puis récupérer le rendu (clic droit → Save, ou le dossier `output`).
+- [ ] **Arrêter ou supprimer le pod** dès que tu as fini.
+
+**💡 Astuces de Mick**
+
+- Facturation à la seconde. **Community Cloud** coûte moins cher mais la disponibilité varie ; **Secure Cloud** est plus cher et plus fiable.
+- Les liens de templates de Mick sont des liens d'affiliation : selon ses posts, après tes 10 premiers dollars, vous recevez tous les deux un bonus de crédit (5 $ fixes dans l'UE).
+- Modèle « gated » : accepte la licence sur Hugging Face, puis `hf auth login` dans le terminal JupyterLab du pod (voir le niveau 2).
+- Plus tard, Claude peut piloter le ComfyUI du pod via son API (adresse du type `https://<id-du-pod>-8188.proxy.runpod.net`), si tu autorises l'accès réseau et la clé.
+
+> 🪤 **Piège :** Un pod oublié **continue de facturer**, même s'il ne calcule rien : vérifie la page *Pods* à la fin de chaque session. Un pod arrêté (*Stop*) facture encore un peu son disque ; *Terminate* libère tout, donc télécharge tes rendus avant si tu n'as pas de volume.
+
+- [ ] ⚔️ **Défi (+75 XP) :** Lancer le template de l'upscaler (niveau 1) sur une RTX 4090, upscaler un clip, et supprimer le pod en moins d'une heure.
+
+<sub>Source : [guide officiel sur mickmumpitz.ai](https://docs.runpod.io/tutorials/pods/comfyui)</sub>
+
 ---
 
 ## Monde 1 · La Salle de post-prod
 
-<a id="niveau-1"></a>
+<a id="l1"></a>
 
 ### Niveau 1 · 🔍 Le Zoom qui invente
 
 **Difficulté** ★☆☆☆☆ · **Défi** +100 XP · **Badge** 🔍 Œil de lynx
 
 🎥 [STOP Paying for AI Upscaling - This FREE Tool is BETTER [ComfyUI Workflow + Tutorial]](https://www.youtube.com/watch?v=NpNagmQI4yg) · 25 nov. 2025 · 9:16 · ~173 k vues
+
+🖥️ GPU conseillé : **RTX 4090 (24 Go)** · [☁️ Template RunPod de Mick](https://console.runpod.io/deploy?template=g6f7qbratd&ref=mgaruyku)
 
 Un upscaler **génératif** (Wan 2.2 + Ultimate SD Upscaler) qui crée du vrai détail jusqu'en HD, 2K ou 4K au lieu d'interpoler des pixels. Selon Mick, il bat souvent Topaz, et son équipe l'utilise sur presque tous ses projets. C'est le niveau tutoriel : on règle, on appuie sur Run.
 
@@ -145,13 +187,15 @@ Un upscaler **génératif** (Wan 2.2 + Ultimate SD Upscaler) qui crée du vrai d
 
 ## Monde 2 · La Fabrique de personnages
 
-<a id="niveau-2"></a>
+<a id="l2"></a>
 
 ### Niveau 2 · 🧬 L'Usine à sosies
 
 **Difficulté** ★★☆☆☆ · **Défi** +150 XP · **Badge** 🧬 Cloneur·euse
 
 🎥 [Create HYPERREALISTIC AI Characters That INTERACT | FREE & LOCAL](https://www.youtube.com/watch?v=ghFYDG0DF1w) · 17 juil. 2026 · 34:28 · ~75 k vues
+
+🖥️ GPU conseillé : **RTX 4090 ou RTX 5090** · [☁️ Template RunPod de Mick](https://console.runpod.io/deploy?template=o1faf9xnyz&ref=mgaruyku)
 
 **Consistent Character Creator 4.0** : une seule image de référence → un dataset complet du personnage (T-pose, marche de profil, gros plans, tout le board). Tu ne gardes que les images réussies, tu les légendes, puis tu entraînes ton casting dans **une LoRA**.
 
@@ -183,13 +227,15 @@ Un upscaler **génératif** (Wan 2.2 + Ultimate SD Upscaler) qui crée du vrai d
 
 <sub>Source : [guide officiel sur mickmumpitz.ai](https://mickmumpitz.ai/posts/new-video-free-4-164075060)</sub>
 
-<a id="niveau-3"></a>
+<a id="l3"></a>
 
 ### Niveau 3 · 🎬 Le Clap plan par plan
 
 **Difficulté** ★★☆☆☆ · **Défi** +150 XP · **Badge** 🎬 Story-boardeur·euse
 
 🎥 [Build your own AI MOVIES shot by shot - FREE & LOCAL! [AI Filmmaking in ComfyUI - 2025]](https://www.youtube.com/watch?v=YpuSE9hcal8) · 1 nov. 2025 · 17:00 · ~203 k vues
+
+🖥️ GPU conseillé : **RTX 4090 ou RTX 5090** · pas de template RunPod de Mick (template ComfyUI générique)
 
 Des films plan par plan avec personnages et décors cohérents, **sans entraîner de LoRA**. On déplace la caméra dans des environnements à 360°, on change de personnage ou de lieu instantanément, on dirige avec de simples prompts. Tous les styles marchent : réaliste, anime, pâte à modeler.
 
@@ -224,13 +270,15 @@ Des films plan par plan avec personnages et décors cohérents, **sans entraîne
 
 ## Monde 3 · Le Plateau de tournage
 
-<a id="niveau-4"></a>
+<a id="l4"></a>
 
 ### Niveau 4 · 🎞️ Le Plateau modulaire
 
 **Difficulté** ★★★☆☆ · **Défi** +200 XP · **Badge** 🎞️ Monteur·euse
 
 🎥 [Generate ENTIRE AI MOVIES with this NEW METHOD! [FREE & LOCAL]](https://www.youtube.com/watch?v=0mT4p86ZxGQ) · 4 mai 2026 · 10:43 · ~75 k vues
+
+🖥️ GPU conseillé : **RTX 5090 (32 Go) ou L40S (48 Go)** · [☁️ Template RunPod de Mick](https://console.runpod.io/deploy?template=x4px1sy09w&ref=mgaruyku)
 
 Le **Movie Builder** : une référence personnage, une référence décor, un échantillon de voix et un prompt → image de départ (Flux 2 Klein) → vidéo avec dialogue synchronisé (LTX 2.3) → plan suivant. Rien n'est figé : change l'image du héros et tout le film change de héros.
 
@@ -265,13 +313,15 @@ Le **Movie Builder** : une référence personnage, une référence décor, un é
 
 <sub>Source : [guide officiel sur mickmumpitz.ai](https://mickmumpitz.ai/posts/guide-ltx-2-3-157329723)</sub>
 
-<a id="niveau-5"></a>
+<a id="l5"></a>
 
 ### Niveau 5 · 🪄 Le Marionnettiste
 
 **Difficulté** ★★★☆☆ · **Défi** +200 XP · **Badge** 🪄 Marionnettiste
 
 🎥 [AI is finally controllable! …with a stick [FREE ComfyUI Workflow + Tutorial]](https://www.youtube.com/watch?v=pUb58eAZ3pc) · 17 déc. 2025 · 10:40 · ~124 k vues
+
+🖥️ GPU conseillé : **RTX 4090 ou RTX 5090** · [☁️ Template RunPod de Mick](https://console.runpod.io/deploy?template=hok2ttp6qw&ref=mgaruyku)
 
 Tu bouges des jouets ou des découpages au bout d'un **bâton** dans ton décor ; le workflow efface le bâton et anime l'objet en suivant exactement ton geste, avec ombres, reflets et interactions. C'est basé sur le papier de recherche **Time-to-Move** (sans entraînement), qui marche le mieux avec Wan 2.2. Mick en a tiré un court-métrage de jouets qui prennent vie.
 
@@ -306,13 +356,15 @@ Tu bouges des jouets ou des découpages au bout d'un **bâton** dans ton décor 
 
 ## Monde 4 · La Salle des machines (rendu 3D → IA)
 
-<a id="niveau-6"></a>
+<a id="l6"></a>
 
 ### Niveau 6 · ⚙️ Le Moteur de rendu 2.0
 
 **Difficulté** ★★★☆☆ · **Défi** +200 XP · **Badge** ⚙️ Mécano du rendu
 
 🎥 [We Built an AI Render Engine for FREE](https://www.youtube.com/watch?v=0WkixvqnPXw) · 25 févr. 2026 · 15:30 · ~182 k vues
+
+🖥️ GPU conseillé : **RTX 4090 (GGUF) ou L40S** · [☁️ Template RunPod de Mick](https://console.runpod.io/deploy?template=edjge1eypm&ref=mgaruyku)
 
 **AI Renderer 2.0** : exporte des passes de profondeur et de contours depuis Blender, fabrique une image de référence avec Z-Image Turbo, et le merge **SkyReels V3 × Wan VACE** rend une vidéo stylisée qui suit exactement ta géométrie : textures, lumière, fumée, eau, débris.
 
@@ -343,13 +395,15 @@ Tu bouges des jouets ou des découpages au bout d'un **bâton** dans ton décor 
 
 <sub>Source : [guide officiel sur mickmumpitz.ai](https://mickmumpitz.ai/posts/ai-renderer-2-0-153434545)</sub>
 
-<a id="niveau-7"></a>
+<a id="l7"></a>
 
 ### Niveau 7 · 🐻 Bear Minimum
 
 **Difficulté** ★★★★☆ · **Défi** +250 XP · **Badge** 🐻 Gérant·e de motel
 
 🎥 [We Built a FREE AI Render Engine for CG & Facial Animation (ComfyUI + Blender)](https://www.youtube.com/watch?v=7J7hi-Hxpac) · 19 juin 2026 · 23:00 · ~67 k vues
+
+🖥️ GPU conseillé : **RTX 5090 ou L40S** · [☁️ Template RunPod de Mick](https://console.runpod.io/deploy?template=w6zqdu6zzz&ref=mgaruyku)
 
 Le pipeline du court *Bear Minimum*, un motel tenu par une famille d'ours. Tu maquettes en 3D, une image Flux 2 Klein fixe le style, et **LTX 2.3** rend le plan animé **et synchronisé sur les lèvres** à partir d'un fichier audio. Vidéo sponsorisée par NVIDIA ; les workflows restent gratuits.
 
@@ -382,13 +436,15 @@ Le pipeline du court *Bear Minimum*, un motel tenu par une famille d'ours. Tu ma
 
 <sub>Source : [guide officiel sur mickmumpitz.ai](https://mickmumpitz.ai/posts/new-video-free-161509029)</sub>
 
-<a id="niveau-8"></a>
+<a id="l8"></a>
 
 ### Niveau 8 · 🗿 La Pâte qui prend vie
 
 **Difficulté** ★★★☆☆ · **Défi** +200 XP · **Badge** 🗿 Sculpteur·rice
 
 🎥 [This new AI Render Engine is amazing!](https://www.youtube.com/watch?v=Q2oVBVQNQ_U) · 12 août 2026 · 14:09 · ~68 k vues
+
+🖥️ GPU conseillé : **L40S (48 Go) ; RTX PRO 6000 pour le NVFP4** · pas de template RunPod de Mick (template ComfyUI générique)
 
 Un playblast gris en « clay » + une description du look = **un plan fini, avec le son**. Avec **MiniMax H3**, plus de pile de ControlNet, ni de passe depth, ni d'OpenPose : selon Mick, ça fait ce que son équipe contournait depuis trois ans.
 
@@ -440,13 +496,15 @@ Render every frame fully. No on-screen text.
 
 ## Monde 5 · Le Studio VFX
 
-<a id="niveau-9"></a>
+<a id="l9"></a>
 
 ### Niveau 9 · 💥 Le Studio VFX de poche
 
 **Difficulté** ★★★★☆ · **Défi** +250 XP · **Badge** 💥 Artificier·ère
 
 🎥 [I Built a FREE VFX Pipeline with Local AI [2026 Masterclass]](https://www.youtube.com/watch?v=_n0ir5V5tX4) · 30 mars 2026 · 19:12 · ~205 k vues
+
+🖥️ GPU conseillé : **RTX 4090/5090 en FP8, L40S pour être large** · [☁️ Template RunPod de Mick](https://console.runpod.io/deploy?template=hb55l4frnh&ref=mgaruyku)
 
 **AI VFX 1.0** : masque une zone de ta vidéo et remplace-la par du contenu IA qui suit précisément la géométrie de la scène. Le cœur : le merge d'Inner-Reflections, **SkyReels V3 R2V** (compréhension des références) × **Wan VACE** (ControlNet et inpainting). Quatre ingrédients à doser : masques, ControlNets, images de référence, prompts.
 
@@ -477,13 +535,15 @@ Render every frame fully. No on-screen text.
 
 <sub>Source : [guide officiel sur mickmumpitz.ai](https://mickmumpitz.ai/posts/free-guide-epic-154092216)</sub>
 
-<a id="niveau-10"></a>
+<a id="l10"></a>
 
 ### Niveau 10 · 🐷 Groin groin
 
 **Difficulté** ★★★★☆ · **Défi** +250 XP · **Badge** 🐷 Cochon d'or
 
 🎥 [I turned myself into a pig with AI [Free & Local VFX Tutorial]](https://www.youtube.com/watch?v=2MzCkYrvDaI) · 7 oct. 2026 · 11:30 · ~31 k vues
+
+🖥️ GPU conseillé : **24 Go et plus avec l'encodeur sur CPU ; 48 Go conseillés** · pas de template RunPod de Mick (template ComfyUI générique)
 
 La **performance capture** locale avec MiniMax H3 : deviens n'importe quelle créature, ou une autre personne, avec une seule caméra. H3 ne régénère que la zone masquée : le mouvement de caméra reste verrouillé, ton corps et la pièce restent réels, et l'audio est ton vrai enregistrement. La créature joue comme toi : voix, bouche, expressions, mouvements de tête.
 
@@ -520,13 +580,15 @@ La **performance capture** locale avec MiniMax H3 : deviens n'importe quelle cr�
 
 ## Monde 6 · Au-delà de l'écran (3D & 4D)
 
-<a id="niveau-11"></a>
+<a id="l11"></a>
 
 ### Niveau 11 · 🗺️ Le Cartographe
 
 **Difficulté** ★★★★★ · **Défi** +300 XP · **Badge** 🗺️ Cartographe
 
 🎥 [We Open Sourced World Generation](https://www.youtube.com/watch?v=eJuYBNrD8HI) · 25 août 2026 · 17:55 · ~149 k vues
+
+🖥️ GPU conseillé : **L40S (48 Go)** · pas de template RunPod de Mick (template ComfyUI générique)
 
 Une image ou un prompt → **un monde 3D complet** où se promener, en local. La base est **Matrix-3D** de Skywork : panorama 360° → mesh grossier tiré de la profondeur → une caméra qui vole dedans → Wan 2.1 bouche les trous. La version officielle ne tourne que sous Linux ; l'équipe de Mick l'a reconstruite en nœuds ComfyUI, accélérée avec lightx2v, et dotée d'un éditeur de trajectoire de drone.
 
@@ -556,13 +618,15 @@ Une image ou un prompt → **un monde 3D complet** où se promener, en local. La
 
 <sub>Source : [guide officiel sur mickmumpitz.ai](https://mickmumpitz.ai/posts/new-video-free-167647096)</sub>
 
-<a id="niveau-12"></a>
+<a id="l12"></a>
 
 ### Niveau 12 · 🕶️ Bullet time maison
 
 **Difficulté** ★★★★★ · **Défi** +300 XP · **Badge** 🕶️ L'Élu·e
 
 🎥 [4D video is here, and it runs on your own computer](https://www.youtube.com/watch?v=nYisoS5wPYQ) · 11 sept. 2026 · 8:21 · ~59 k vues
+
+🖥️ GPU conseillé : **L40S (48 Go)** · pas de template RunPod de Mick (template ComfyUI générique)
 
 Une vidéo de téléphone → **un humain en 4D** (un Gaussian Splat par frame) autour duquel une caméra virtuelle peut tourner. C'est le portage ComfyUI de **4DAnyone** (Ant Research et Université du Zhejiang), qui tourne sur Wan 2.2. Le test ultime : le *bullet time* de Matrix, fait à l'origine avec environ 120 caméras, refait par Mick avec un iPhone, un matelas et une demi-heure à embêter ses voisins.
 
@@ -597,13 +661,15 @@ Une vidéo de téléphone → **un humain en 4D** (un Gaussian Splat par frame) 
 
 ## Boss final
 
-<a id="niveau-13"></a>
+<a id="l13"></a>
 
 ### Niveau 13 · 👑 SHIBUWAKA : un anime avec un seul modèle
 
 **Difficulté** ★★★★★ · **Défi** +400 XP · **Badge** 👑 Réalisateur·rice
 
 🎥 [This NEW METHOD just solved AI FILMMAKING [Free & Local!]](https://www.youtube.com/watch?v=xwTJ3E3NU7A) · 28 oct. 2026 · 12:39 · ~84 k vues
+
+🖥️ GPU conseillé : **RTX PRO 6000 (96 Go) ou H100** · pas de template RunPod de Mick (template ComfyUI générique)
 
 La suite complète de workflows du court-métrage anime **SHIBUWAKA** : images, voix, musique et vidéo, le tout avec **MiniMax H3** (version référence). Chaque étape de production a son workflow, mais tous partagent la même disposition : les références entrent d'un côté (texte, image, audio ou vidéo), le prompt dit à quoi sert chacune, le résultat sort de l'autre côté.
 
@@ -833,7 +899,7 @@ Ce que ces 13 vidéos racontent de l'évolution de l'IA vidéo locale en un an.
 
 ## 🏆 Les rangs
 
-Total possible : **4100 XP** (80 étapes × 10, les défis, et 12 questions × 25).
+Total possible : **4245 XP** (87 étapes × 10, les défis, et 12 questions × 25).
 
 - 🎟️ **Stagiaire du plateau** : à partir de 0 % de l'XP
 - 🎥 **Assistant·e caméra** : à partir de 10 % de l'XP
@@ -848,18 +914,18 @@ Les 13 dernières vidéos de la [chaîne YouTube @mickmumpitz](https://www.youtu
 
 | Date | Vidéo | Durée | Niveau | Guide |
 |---|---|---|---|---|
-| 28 oct. 2026 | [This NEW METHOD just solved AI FILMMAKING [Free & Local!]](https://www.youtube.com/watch?v=xwTJ3E3NU7A) | 12:39 | [Niv. 13](#niveau-13) | [guide](https://mickmumpitz.ai/posts/make-your-own-ai-173637693) |
-| 7 oct. 2026 | [I turned myself into a pig with AI [Free & Local VFX Tutorial]](https://www.youtube.com/watch?v=2MzCkYrvDaI) | 11:30 | [Niv. 10](#niveau-10) | [guide](https://mickmumpitz.ai/posts/new-video-free-171702311) |
-| 11 sept. 2026 | [4D video is here, and it runs on your own computer](https://www.youtube.com/watch?v=nYisoS5wPYQ) | 8:21 | [Niv. 12](#niveau-12) | [guide](https://mickmumpitz.ai/posts/new-video-free-169253362) |
-| 25 août 2026 | [We Open Sourced World Generation](https://www.youtube.com/watch?v=eJuYBNrD8HI) | 17:55 | [Niv. 11](#niveau-11) | [guide](https://mickmumpitz.ai/posts/new-video-free-167647096) |
-| 12 août 2026 | [This new AI Render Engine is amazing!](https://www.youtube.com/watch?v=Q2oVBVQNQ_U) | 14:09 | [Niv. 8](#niveau-8) | [guide](https://mickmumpitz.ai/posts/new-video-free-166463119) |
-| 17 juil. 2026 | [Create HYPERREALISTIC AI Characters That INTERACT | FREE & LOCAL](https://www.youtube.com/watch?v=ghFYDG0DF1w) | 34:28 | [Niv. 2](#niveau-2) | [guide](https://mickmumpitz.ai/posts/new-video-free-4-164075060) |
-| 19 juin 2026 | [We Built a FREE AI Render Engine for CG & Facial Animation (ComfyUI + Blender)](https://www.youtube.com/watch?v=7J7hi-Hxpac) | 23:00 | [Niv. 7](#niveau-7) | [guide](https://mickmumpitz.ai/posts/new-video-free-161509029) |
-| 4 mai 2026 | [Generate ENTIRE AI MOVIES with this NEW METHOD! [FREE & LOCAL]](https://www.youtube.com/watch?v=0mT4p86ZxGQ) | 10:43 | [Niv. 4](#niveau-4) | [guide](https://mickmumpitz.ai/posts/guide-ltx-2-3-157329723) |
-| 30 mars 2026 | [I Built a FREE VFX Pipeline with Local AI [2026 Masterclass]](https://www.youtube.com/watch?v=_n0ir5V5tX4) | 19:12 | [Niv. 9](#niveau-9) | [guide](https://mickmumpitz.ai/posts/free-guide-epic-154092216) |
-| 25 févr. 2026 | [We Built an AI Render Engine for FREE](https://www.youtube.com/watch?v=0WkixvqnPXw) | 15:30 | [Niv. 6](#niveau-6) | [guide](https://mickmumpitz.ai/posts/ai-renderer-2-0-153434545) |
-| 17 déc. 2025 | [AI is finally controllable! …with a stick [FREE ComfyUI Workflow + Tutorial]](https://www.youtube.com/watch?v=pUb58eAZ3pc) | 10:40 | [Niv. 5](#niveau-5) | [guide](https://mickmumpitz.ai/posts/ai-video-with-154392669) |
-| 25 nov. 2025 | [STOP Paying for AI Upscaling - This FREE Tool is BETTER [ComfyUI Workflow + Tutorial]](https://www.youtube.com/watch?v=NpNagmQI4yg) | 9:16 | [Niv. 1](#niveau-1) | [guide](https://mickmumpitz.ai/posts/stop-paying-for-154393504) |
-| 1 nov. 2025 | [Build your own AI MOVIES shot by shot - FREE & LOCAL! [AI Filmmaking in ComfyUI - 2025]](https://www.youtube.com/watch?v=YpuSE9hcal8) | 17:00 | [Niv. 3](#niveau-3) | [guide](https://mickmumpitz.ai/posts/new-video-build-142571395) |
+| 28 oct. 2026 | [This NEW METHOD just solved AI FILMMAKING [Free & Local!]](https://www.youtube.com/watch?v=xwTJ3E3NU7A) | 12:39 | [Niv. 13](#l13) | [guide](https://mickmumpitz.ai/posts/make-your-own-ai-173637693) |
+| 7 oct. 2026 | [I turned myself into a pig with AI [Free & Local VFX Tutorial]](https://www.youtube.com/watch?v=2MzCkYrvDaI) | 11:30 | [Niv. 10](#l10) | [guide](https://mickmumpitz.ai/posts/new-video-free-171702311) |
+| 11 sept. 2026 | [4D video is here, and it runs on your own computer](https://www.youtube.com/watch?v=nYisoS5wPYQ) | 8:21 | [Niv. 12](#l12) | [guide](https://mickmumpitz.ai/posts/new-video-free-169253362) |
+| 25 août 2026 | [We Open Sourced World Generation](https://www.youtube.com/watch?v=eJuYBNrD8HI) | 17:55 | [Niv. 11](#l11) | [guide](https://mickmumpitz.ai/posts/new-video-free-167647096) |
+| 12 août 2026 | [This new AI Render Engine is amazing!](https://www.youtube.com/watch?v=Q2oVBVQNQ_U) | 14:09 | [Niv. 8](#l8) | [guide](https://mickmumpitz.ai/posts/new-video-free-166463119) |
+| 17 juil. 2026 | [Create HYPERREALISTIC AI Characters That INTERACT | FREE & LOCAL](https://www.youtube.com/watch?v=ghFYDG0DF1w) | 34:28 | [Niv. 2](#l2) | [guide](https://mickmumpitz.ai/posts/new-video-free-4-164075060) |
+| 19 juin 2026 | [We Built a FREE AI Render Engine for CG & Facial Animation (ComfyUI + Blender)](https://www.youtube.com/watch?v=7J7hi-Hxpac) | 23:00 | [Niv. 7](#l7) | [guide](https://mickmumpitz.ai/posts/new-video-free-161509029) |
+| 4 mai 2026 | [Generate ENTIRE AI MOVIES with this NEW METHOD! [FREE & LOCAL]](https://www.youtube.com/watch?v=0mT4p86ZxGQ) | 10:43 | [Niv. 4](#l4) | [guide](https://mickmumpitz.ai/posts/guide-ltx-2-3-157329723) |
+| 30 mars 2026 | [I Built a FREE VFX Pipeline with Local AI [2026 Masterclass]](https://www.youtube.com/watch?v=_n0ir5V5tX4) | 19:12 | [Niv. 9](#l9) | [guide](https://mickmumpitz.ai/posts/free-guide-epic-154092216) |
+| 25 févr. 2026 | [We Built an AI Render Engine for FREE](https://www.youtube.com/watch?v=0WkixvqnPXw) | 15:30 | [Niv. 6](#l6) | [guide](https://mickmumpitz.ai/posts/ai-renderer-2-0-153434545) |
+| 17 déc. 2025 | [AI is finally controllable! …with a stick [FREE ComfyUI Workflow + Tutorial]](https://www.youtube.com/watch?v=pUb58eAZ3pc) | 10:40 | [Niv. 5](#l5) | [guide](https://mickmumpitz.ai/posts/ai-video-with-154392669) |
+| 25 nov. 2025 | [STOP Paying for AI Upscaling - This FREE Tool is BETTER [ComfyUI Workflow + Tutorial]](https://www.youtube.com/watch?v=NpNagmQI4yg) | 9:16 | [Niv. 1](#l1) | [guide](https://mickmumpitz.ai/posts/stop-paying-for-154393504) |
+| 1 nov. 2025 | [Build your own AI MOVIES shot by shot - FREE & LOCAL! [AI Filmmaking in ComfyUI - 2025]](https://www.youtube.com/watch?v=YpuSE9hcal8) | 17:00 | [Niv. 3](#l3) | [guide](https://mickmumpitz.ai/posts/new-video-build-142571395) |
 
 <sub>Guide non officiel, fait par un fan. Tous les workflows, vidéos et noms appartiennent à Mickmumpitz et à leurs auteurs respectifs.</sub>
